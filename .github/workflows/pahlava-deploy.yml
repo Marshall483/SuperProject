@@ -12,8 +12,6 @@ jobs:
       - uses: amondnet/vercel-action@v20
         with:
           vercel-token: ryzoeQ7aw7daWBedicG54FfA
-          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
-          vercel-args: '--prod' #Optional
           vercel-org-id: B7Gsz5NrunlTmgdEHdPxjh2C
           vercel-project-id: prj_AtpuslMqBqgX3aSKYuLBeIUSCw2n 
           working-directory: ./pahlava
