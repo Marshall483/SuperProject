@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Pahlava</title>
-        <meta name="description" content="Pahlava" />
+        <meta name="description" content="Pahlava Front" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
