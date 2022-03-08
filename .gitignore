@@ -23,19 +23,18 @@
 hs_err_pid*
 
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage
 
 # next.js
-/.next/
-/out/
+.next/
 
 # production
-/build
+pahlava/build
 
 # misc
 .DS_Store
@@ -58,6 +57,3 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-
-#frontend-deployment
-.vercel
