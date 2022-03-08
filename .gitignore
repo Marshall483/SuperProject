@@ -33,8 +33,10 @@ coverage
 # next.js
 .next/
 
-# production
+# frontend production
+pahlava/.vercel
 pahlava/build
+pahlava/vercel.json
 
 # misc
 .DS_Store
@@ -51,9 +53,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-
-# vercel
-.vercel
 
 # typescript
 *.tsbuildinfo
