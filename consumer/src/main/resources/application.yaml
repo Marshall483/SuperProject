@@ -1,0 +1,8 @@
+# Порт сервера
+server:
+  port: 8080
+
+# Путь к шаблону PDF
+jasper:
+  path-to-template:
+    pdf: classpath:pdf_report.jrxml
