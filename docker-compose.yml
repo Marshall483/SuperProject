@@ -1,0 +1,89 @@
+version: '3.8'
+services:
+  producer:
+    build:
+      context: demo
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/redis_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: qwerty007
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SPRING_REDIS_HOST: redis
+    networks:
+      - backend
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=redis_db
+      - POSTGRES_PASSWORD=qwerty007
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/var/lib/redis
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "5673:5673"
+      - "15672:15672"
+    networks:
+      - backend
+
+  consumer_1:
+    build:
+      context: consumer
+      dockerfile: Dockerfile
+    depends_on:
+      - producer
+      - rabbitmq
+    environment: # Pass environment variables to the service
+        SPRING_RABBITMQ_HOST: rabbitmq
+        SPRING_RABBITMQ_USERNAME: guest
+        SPRING_RABBITMQ_PASSWORD: guest
+    networks:
+      - backend
+
+  consumer_2:
+    build:
+      context: consumer-xlsx
+      dockerfile: Dockerfile
+    depends_on:
+      - producer
+      - rabbitmq
+    environment: # Pass environment variables to the service
+        SPRING_RABBITMQ_HOST: rabbitmq
+        SPRING_RABBITMQ_USERNAME: guest
+        SPRING_RABBITMQ_PASSWORD: guest
+    networks:
+      - backend
+
+volumes:
+    db-data:
+    redis-data:
+
+networks:
+  backend:
