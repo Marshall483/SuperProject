@@ -1,24 +1,17 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Pahlava</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta name="description" content="Pahlava Front" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+    </>
+  );
+};
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Tut budet front blya
-        </h1>
-      </main>
-    </div>
-  )
-}
-
-export default Home
+export default Home;

@@ -1,8 +1,24 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import Head from "next/head";
+import { AppProps } from "next/app";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from "../theme";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+const App = (props: AppProps) => {
+  const { Component, pageProps } = props;
 
-export default MyApp
+  return (
+    <>
+      <Head>
+        <title>Pahlava</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </>
+  );
+};
+
+export default App;
