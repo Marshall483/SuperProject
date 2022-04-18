@@ -4,8 +4,11 @@ FROM openjdk:8-jdk-slim as build
 WORKDIR /app
 
 # Copy maven executable to the image
-COPY mvnw .
-COPY .mvn .mvn
+#COPY mvnw .
+#COPY .mvn .mvn
+
+COPY ./entrypoint.sh /usr/bin/entrypoint.sh
+RUN  dos2unix /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy the pom.xml file
 COPY pom.xml .
@@ -13,6 +16,7 @@ COPY pom.xml .
 # Build all the dependencies in preparation to go offline.
 # This is a separate step so the dependencies will be cached unless
 # the pom.xml file has changed.
+RUN mvn -N io.takari:maven:wrapper
 RUN ./mvnw dependency:go-offline -B
 
 # Copy the project source
