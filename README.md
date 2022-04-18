@@ -4,5 +4,9 @@
 время прибытия сотрудника на рабочее место по первому онлайну.
 
 ## Folders 
+Backend перед запуском в каждом джава приложении
+
+`mvn -N io.takari:maven:wrapper 
+`
 
 Frontend - [pahlava](./pahlava)
