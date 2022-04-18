@@ -16,13 +16,13 @@ COPY pom.xml .
 # the pom.xml file has changed.
 #RUN /opt/maven -N io.takari:maven:wrapper
 
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Copy the project source
 COPY src src
 
 # Package the application
-RUN ./mvnw package -DskipTests
+RUN mvn clean package -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 
