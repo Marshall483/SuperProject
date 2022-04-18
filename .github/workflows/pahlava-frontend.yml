@@ -3,6 +3,9 @@ on:
  push:
   branches:
    - 'pahlava-frontend'
+defaults:
+  run:
+    working-directory: pahlava
 jobs:
   code-check:
     runs-on: ubuntu-latest
