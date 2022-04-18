@@ -79,6 +79,15 @@ services:
       timeout: 10s
       retries: 10
 
+  pahlava:
+    restart: always
+    build:
+      context: ./pahlava
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
 
 volumes:
   db-data:
@@ -87,3 +96,4 @@ volumes:
 
 networks:
   backend:
+  frontend:
