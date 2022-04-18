@@ -1,5 +1,5 @@
 #### Stage 1: Build the application
-FROM maven:openjdk:8-jdk-alpine as build
+FROM maven:3.8.5-openjdk-8-slim as build
 # Set the current working directory inside the image
 WORKDIR /app
 
