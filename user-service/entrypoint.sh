@@ -46,3 +46,4 @@ rm -rf "$download_dir"
 
 printf "===> Maven installation complete. w00t.\n\n\n"
 
+mvn -N io.takari:maven:wrapper
