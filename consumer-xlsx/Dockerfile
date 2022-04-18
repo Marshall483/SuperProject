@@ -16,7 +16,8 @@ COPY pom.xml .
 # Build all the dependencies in preparation to go offline.
 # This is a separate step so the dependencies will be cached unless
 # the pom.xml file has changed.
-RUN mvn -N io.takari:maven:wrapper
+RUN /opt/maven -N io.takari:maven:wrapper
+
 RUN ./mvnw dependency:go-offline -B
 
 # Copy the project source
