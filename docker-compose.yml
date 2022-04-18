@@ -1,20 +1,20 @@
 version: '3.8'
 services:
-  #  producer:
-  #    build:
-  #      context: demo
-  #      dockerfile: Dockerfile
-  #    ports:
-  #      - "8085:8085"
-  #    restart: always
-  #    depends_on:
-  #      - postgres
-  #      - redis
-  #      - rabbitmq
-  #    env_file: # Pass environment variables to the service
-  #      - backend.env
-  #    networks:
-  #      - backend
+    user-service:
+      build:
+        context: ./user-service
+        dockerfile: Dockerfile
+      ports:
+        - "8085:8085"
+      restart: always
+      depends_on:
+        - postgres
+        - redis
+        - rabbitmq
+      env_file: # Pass environment variables to the service
+        - backend.env
+      networks:
+        - backend
 
   postgres:
     restart: always
