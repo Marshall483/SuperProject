@@ -4,11 +4,9 @@ FROM openjdk:8-jdk-slim as build
 WORKDIR /app
 
 # Copy maven executable to the image
-#COPY mvnw .
-#COPY .mvn .mvn
-
-COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN  dos2unix /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
+COPY mvnw .
+COPY .mvn .mvn
+RUN --mount=type=cache,target=/root/.m2 ./mvnw  install -DskipTests
 
 # Copy the pom.xml file
 COPY pom.xml .
