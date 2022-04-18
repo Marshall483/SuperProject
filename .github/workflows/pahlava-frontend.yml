@@ -1,0 +1,16 @@
+name: pahlava
+on:
+ push:
+  branches:
+   - 'pahlava-frontend'
+jobs:
+  code-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.1.1
+        with:
+          node-version: '16'
+        run: npm install
+        run: npm run test:ci
+        run: npm run lint
