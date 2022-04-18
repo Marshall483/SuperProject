@@ -56,3 +56,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+!./consumer-xlsx/.mvn/*
+!./user-service/.mvn/*
