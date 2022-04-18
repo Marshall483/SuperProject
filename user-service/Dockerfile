@@ -1,13 +1,12 @@
 #### Stage 1: Build the application
-FROM openjdk:8-jdk-alpine as build
-
+FROM maven:openjdk:8-jdk-alpine as build
 # Set the current working directory inside the image
 WORKDIR /app
 
 # Copy maven executable to the image
 COPY mvnw .
 COPY .mvn .mvn
-RUN --mount=type=cache,target=/root/.m2 ./mvnw  install -DskipTests
+RUN mvn -N io.takari:maven:wrapper
 
 # Copy the pom.xml file
 COPY pom.xml .
