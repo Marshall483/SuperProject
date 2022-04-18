@@ -7,7 +7,7 @@ WORKDIR /app
 #COPY mvnw .
 #COPY .mvn .mvn
 
-COPY ./entrypoint.sh /usr/bin/entrypoint.sh
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN  dos2unix /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy the pom.xml file
