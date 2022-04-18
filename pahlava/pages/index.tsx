@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
@@ -48,7 +47,7 @@ const Home = () => {
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography color="textPrimary" variant="h4">
-                {isLoginPage ? " Вход в систему" : "Регистрация"}
+                {isLoginPage ? "Вход в систему" : "Регистрация"}
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
                 Требуется {isLoginPage ? "авторизация" : "Регистрация"} для

@@ -7,6 +7,7 @@ import { Lock as LockIcon } from "../icons/lock";
 import { User as UserIcon } from "../icons/user";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
+import { useTheme } from "@mui/system";
 
 interface Props {
   onClose: () => void;
@@ -39,7 +40,8 @@ const items = [
 export const DashboardSidebar = (props: Props) => {
   const { open, onClose } = props;
   const router = useRouter();
-  const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"), {
+  const theme = useTheme()
+  const lgUp = useMediaQuery(theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,
   });
