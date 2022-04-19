@@ -25,3 +25,6 @@
 /Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/obj/Debug/net6.0/ref/JiraScrapper.dll
 /Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/obj/Debug/net6.0/JiraScrapper.pdb
 /Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/obj/Debug/net6.0/JiraScrapper.genruntimeconfig.cache
+/Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/bin/Debug/net6.0/Atlassian.Jira.dll
+/Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/bin/Debug/net6.0/Newtonsoft.Json.dll
+/Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/bin/Debug/net6.0/RestSharp.dll

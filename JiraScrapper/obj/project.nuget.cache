@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "jRr4xlCYB34VzDOMQnJdHHB1NyqWV/xrbvqiU97yYpeAEcOuWQrCR03dT62y2WkvE6AXmOsGKbH0LWaxXjT5Kw==",
+  "dgSpecHash": "RFTdWZ1UXIssn+TFA1QAXYV8O6A6gvPCgpLetoQcSyCC8OjqUOGj7x9hIZn9ePUe2ikDAPo6clp1d/NP0o+12A==",
   "success": true,
   "projectFilePath": "/Users/marshall483/RiderProjects/SuperProject/SuperProject/JiraScrapper/JiraScrapper.csproj",
   "expectedPackageFiles": [
+    "/Users/marshall483/.nuget/packages/atlassian.sdk/12.4.0/atlassian.sdk.12.4.0.nupkg.sha512",
     "/Users/marshall483/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "/Users/marshall483/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/marshall483/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/marshall483/.nuget/packages/restsharp/106.10.1/restsharp.106.10.1.nupkg.sha512",
     "/Users/marshall483/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "/Users/marshall483/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "/Users/marshall483/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
