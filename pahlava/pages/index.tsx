@@ -29,11 +29,17 @@ const Home = () => {
     },
     validationSchema: Yup.object({
       login: Yup.string()
-        .email("must be a valid email")
+        .email("Введите валидный email")
         .max(255)
-        .required("Email is required"),
-      name: Yup.string().min(2, "Name must be longer").max(15, 'Name too long').required(),
-      password: Yup.string().min(2, "Name must be longer").max(15, 'Password too long').required("Password is required"),
+        .required("Email обязателен"),
+      name: Yup.string()
+        .min(2, "Имя должно иметь >2 символов")
+        .max(15, "Имя должно иметь <15 символов")
+        .required(),
+      password: Yup.string()
+        .min(2, "Пароль должен иметь <15 символов")
+        .max(15, "Пароль должен иметь <15 символов")
+        .required("Пароль обязателен"),
     }),
     onSubmit: async (user, { resetForm }) => {
       setIsLoading(true);
@@ -44,23 +50,23 @@ const Home = () => {
           if (res.status === 200) {
             const token = res?.data?.token;
             if (token) {
-              setAuthToken(token)
+              setAuthToken(token);
               router.push("/dashboard");
-            } 
+            }
           }
           return;
         }
         const res = await axios.post(userRegisterRoute, user);
         setIsLoading(false);
         if (res.status === 200) {
-          toast.success("User successfuly added");
+          toast.success("Пользователь успешно добавлен");
           resetForm();
           setIsLoginPage(true);
         }
       } catch (error) {
         toast.error(
           error?.response?.data?.message ||
-            "Something bad happened, try reload the page or contact with administrator"
+            "Случилось что-то плохое, попробуйте перезагрузить страницу либо свяжитесь с поддержкой"
         );
         setIsLoading(false);
       }
@@ -140,8 +146,8 @@ const Home = () => {
                 size="large"
                 variant="contained"
               >
-                {!isLoading && (isLoginPage  ? "Войти" : "Зарегистрироваться")}
-                {isLoading && <CircularProgress color="inherit"/>}
+                {!isLoading && (isLoginPage ? "Войти" : "Зарегистрироваться")}
+                {isLoading && <CircularProgress color="inherit" />}
               </Button>
             </Box>
             <Typography color="textSecondary" variant="body2">
@@ -149,7 +155,7 @@ const Home = () => {
               <Link
                 underline="hover"
                 onClick={() => {
-                  formik.resetForm()
+                  formik.resetForm();
                   setIsLoginPage((s) => !s);
                 }}
                 sx={{
