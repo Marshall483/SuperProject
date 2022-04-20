@@ -2,10 +2,11 @@ package ru.itis.javalab.forms;
 
 import lombok.*;
 
+@Data
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserForm {
 
