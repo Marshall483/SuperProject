@@ -1,13 +1,18 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import { AppProps } from "next/app";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
 import { Toaster } from "react-hot-toast";
-import '../api/interceptor'
+import { setUpInterceptor } from "../api/interceptor";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
+
+  useEffect(() => {
+    setUpInterceptor();
+  }, []);
 
   return (
     <>
