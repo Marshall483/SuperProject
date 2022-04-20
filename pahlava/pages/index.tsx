@@ -11,9 +11,11 @@ import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { authApi, setAuthToken } from "../api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { userLoginRoute, userRegisterRoute } from "../api/routes";
+import { setAuthToken } from "../api/cookieStorage";
 
 const Home = () => {
   const router = useRouter();
@@ -37,7 +39,7 @@ const Home = () => {
       setIsLoading(true);
       try {
         if (isLoginPage) {
-          const res = await authApi.post("/user/login", user);
+          const res = await axios.post(userLoginRoute, user);
           setIsLoading(false);
           if (res.status === 200) {
             const token = res?.data?.token;
@@ -48,7 +50,7 @@ const Home = () => {
           }
           return;
         }
-        const res = await authApi.post("/user/register", user);
+        const res = await axios.post(userRegisterRoute, user);
         setIsLoading(false);
         if (res.status === 200) {
           toast.success("User successfuly added");

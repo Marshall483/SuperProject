@@ -2,7 +2,7 @@ import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import { Box, Container } from "@mui/material";
 import { DashboardLayout } from "../../components/dashboard-layout";
-import { getAuthToken } from "../../api";
+import { getAuthToken } from "../../api/cookieStorage";
 
 const Dashboard = () => (
   <DashboardLayout>

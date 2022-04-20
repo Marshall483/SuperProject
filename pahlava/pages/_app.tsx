@@ -4,6 +4,7 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
 import { Toaster } from "react-hot-toast";
+import '../api/interceptor'
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
