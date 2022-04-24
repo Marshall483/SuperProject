@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj": {}
+    "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj": {}
   },
   "projects": {
-    "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj": {
+    "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj",
-        "projectName": "JiraScrapper",
-        "projectPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj",
+        "projectUniqueName": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj",
+        "projectName": "Gateway",
+        "projectPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj",
         "packagesPath": "C:\\Users\\al.putilin\\.nuget\\packages\\",
-        "outputPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\obj\\",
+        "outputPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -44,14 +44,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Atlassian.SDK": {
-              "target": "Package",
-              "version": "[12.4.0, )"
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"

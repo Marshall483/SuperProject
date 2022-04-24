@@ -1,14 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "X9qCh1Is3N/NzVB9YDrvD9K3fHc3kQ61kiO0ANfBCtRx8/Fwq9rNujlzbTuYFPzMPfE0bGK+AJZavJzYTx1EWw==",
+  "dgSpecHash": "Obgz/MZA+r4SZKnQqou0l1BBUSUvDSWCo5pGUM1UL44BTZvhF6Q2eFwmgiwX7xORQ/9yKX7PuNRgoct98VNI8A==",
   "success": true,
-  "projectFilePath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj",
+  "projectFilePath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\DataAccessService\\DataAccessService.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\al.putilin\\.nuget\\packages\\atlassian.sdk\\12.4.0\\atlassian.sdk.12.4.0.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\al.putilin\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\al.putilin\\.nuget\\packages\\restsharp\\106.10.1\\restsharp.106.10.1.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

@@ -2,19 +2,6 @@
   "version": 3,
   "targets": {
     "net6.0": {
-      "Atlassian.SDK/12.4.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "10.0.3",
-          "RestSharp": "106.10.1"
-        },
-        "compile": {
-          "lib/netstandard2.0/Atlassian.Jira.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/Atlassian.Jira.dll": {}
-        }
-      },
       "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
         "type": "package",
         "build": {
@@ -33,24 +20,6 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
-        }
-      },
-      "Newtonsoft.Json/13.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        }
-      },
-      "RestSharp/106.10.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/RestSharp.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/RestSharp.dll": {}
         }
       },
       "Swashbuckle.AspNetCore/6.2.3": {
@@ -107,19 +76,6 @@
     }
   },
   "libraries": {
-    "Atlassian.SDK/12.4.0": {
-      "sha512": "K3EtLELu9ePPXbyTmLDSbBG33FR1glL2+BmgMZKfUZECfxpEQg9gsyjfrpSJzlKKiFjjUFEkiEkGXnBaT59jcQ==",
-      "type": "package",
-      "path": "atlassian.sdk/12.4.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "atlassian.sdk.12.4.0.nupkg.sha512",
-        "atlassian.sdk.nuspec",
-        "lib/net452/Atlassian.Jira.dll",
-        "lib/netstandard2.0/Atlassian.Jira.dll"
-      ]
-    },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "sha512": "LH4OE/76F6sOCslif7+Xh3fS/wUUrE5ryeXAMcoCnuwOQGT5Smw0p57IgDh/pHgHaGz/e+AmEQb7pRgb++wt0w==",
       "type": "package",
@@ -162,48 +118,6 @@
         "lib/netstandard2.0/Microsoft.OpenApi.xml",
         "microsoft.openapi.1.2.3.nupkg.sha512",
         "microsoft.openapi.nuspec"
-      ]
-    },
-    "Newtonsoft.Json/13.0.1": {
-      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
-      "type": "package",
-      "path": "newtonsoft.json/13.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.md",
-        "lib/net20/Newtonsoft.Json.dll",
-        "lib/net20/Newtonsoft.Json.xml",
-        "lib/net35/Newtonsoft.Json.dll",
-        "lib/net35/Newtonsoft.Json.xml",
-        "lib/net40/Newtonsoft.Json.dll",
-        "lib/net40/Newtonsoft.Json.xml",
-        "lib/net45/Newtonsoft.Json.dll",
-        "lib/net45/Newtonsoft.Json.xml",
-        "lib/netstandard1.0/Newtonsoft.Json.dll",
-        "lib/netstandard1.0/Newtonsoft.Json.xml",
-        "lib/netstandard1.3/Newtonsoft.Json.dll",
-        "lib/netstandard1.3/Newtonsoft.Json.xml",
-        "lib/netstandard2.0/Newtonsoft.Json.dll",
-        "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.1.nupkg.sha512",
-        "newtonsoft.json.nuspec",
-        "packageIcon.png"
-      ]
-    },
-    "RestSharp/106.10.1": {
-      "sha512": "MhR4w8LbArVaRA5T/oAR3ZnF852QXtDXRBO84GsvyYzsm7FsjXHJ+JaM8x/nR/B/OCB1WbolGH7hqMT1GZpNJw==",
-      "type": "package",
-      "path": "restsharp/106.10.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net452/RestSharp.dll",
-        "lib/net452/RestSharp.xml",
-        "lib/netstandard2.0/RestSharp.dll",
-        "lib/netstandard2.0/RestSharp.xml",
-        "restsharp.106.10.1.nupkg.sha512",
-        "restsharp.nuspec"
       ]
     },
     "Swashbuckle.AspNetCore/6.2.3": {
@@ -290,8 +204,6 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Atlassian.SDK >= 12.4.0",
-      "Newtonsoft.Json >= 13.0.1",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -302,11 +214,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj",
-      "projectName": "JiraScrapper",
-      "projectPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\JiraScrapper.csproj",
+      "projectUniqueName": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj",
+      "projectName": "Gateway",
+      "projectPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj",
       "packagesPath": "C:\\Users\\al.putilin\\.nuget\\packages\\",
-      "outputPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\JiraScrapper\\obj\\",
+      "outputPath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -339,14 +251,6 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
-          "Atlassian.SDK": {
-            "target": "Package",
-            "version": "[12.4.0, )"
-          },
-          "Newtonsoft.Json": {
-            "target": "Package",
-            "version": "[13.0.1, )"
-          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
