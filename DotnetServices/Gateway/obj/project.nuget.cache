@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "pKVVx3Ocjq4dkzd/ao87jPacVhAptnaSCsrjNw/rj1IYZgGJUa9IR84/Ueo9i9RV/aLy3ajPCLWeJij7eGoLoA==",
+  "dgSpecHash": "k66sNfgZlhI1iY0a738uHlWesL24r2qxixAQInjNOkvUtnK5QasECWFAOEUfQ1SROtdqHYf+KTR4Wnef7pn29g==",
   "success": true,
   "projectFilePath": "C:\\REPOS\\ASS\\SuperProject\\DotnetServices\\Gateway\\Gateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\al.putilin\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\al.putilin\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\al.putilin\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

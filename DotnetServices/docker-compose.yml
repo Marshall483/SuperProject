@@ -3,23 +3,54 @@ version: '3.4'
 services:
   jirascrapper:
     image: ${DOCKER_REGISTRY-}jirascrapper
+    ports:
+      - "5001:443"
+      - "8081:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: .
       dockerfile: JiraScrapper/Dockerfile
 
   gateway:
     image: ${DOCKER_REGISTRY-}gateway
+    ports:
+      - "5002:443"
+      - "8082:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5002
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: .
       dockerfile: Gateway/Dockerfile
 
-
   dataaccessservice:
     image: ${DOCKER_REGISTRY-}dataaccessservice
+    ports:
+      - "5003:443"
+      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5003
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: .
       dockerfile: DataAccessService/Dockerfile
-
 
   cassandra-node1:
     image: bitnami/cassandra:latest

@@ -1,0 +1,297 @@
+name: dockercompose8611608043351235670
+services:
+  cassandra-node1:
+    environment:
+      CASSANDRA_CLUSTER_NAME: cassandra-cluster
+      CASSANDRA_DATACENTER: datacenter1
+      CASSANDRA_PASSWORD: password123
+      CASSANDRA_PASSWORD_SEEDER: "yes"
+      CASSANDRA_SEEDS: cassandra-node1,cassandra-node2,cassandra-node3
+    image: bitnami/cassandra:latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 9042
+      published: "9042"
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices\init-scripts
+      target: /docker-entrypoint-initdb.d
+      bind:
+        create_host_path: true
+  cassandra-node2:
+    environment:
+      CASSANDRA_CLUSTER_NAME: cassandra-cluster
+      CASSANDRA_DATACENTER: datacenter1
+      CASSANDRA_PASSWORD: password123
+      CASSANDRA_SEEDS: cassandra-node1,cassandra-node2,cassandra-node3
+    image: bitnami/cassandra:latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 9043
+      published: "9043"
+      protocol: tcp
+  cassandra-node3:
+    environment:
+      CASSANDRA_CLUSTER_NAME: cassandra-cluster
+      CASSANDRA_DATACENTER: datacenter1
+      CASSANDRA_PASSWORD: password123
+      CASSANDRA_SEEDS: cassandra-node1,cassandra-node2,cassandra-node3
+    image: bitnami/cassandra:latest
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 9044
+      published: "9044"
+      protocol: tcp
+  dataaccessservice:
+    build:
+      context: C:\REPOS\ASS\SuperProject\DotnetServices
+      dockerfile: DataAccessService/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: DataAccessService
+      target: base
+    container_name: DataAccessService
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: dataaccessservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net6.0/DataAccessService.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 11
+      published: "11"
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Program Files\dotnet\sdk\NuGetFallbackFolder
+      target: /root/.nuget/fallbackpackages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices
+      target: /src
+      bind:
+        create_host_path: true
+  gateway:
+    build:
+      context: C:\REPOS\ASS\SuperProject\DotnetServices
+      dockerfile: Gateway/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: Gateway
+      target: base
+    container_name: Gateway
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: gateway:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net6.0/Gateway.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 11
+      published: "11"
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices\Gateway
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Program Files\dotnet\sdk\NuGetFallbackFolder
+      target: /root/.nuget/fallbackpackages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices
+      target: /src
+      bind:
+        create_host_path: true
+  jirascrapper:
+    build:
+      context: C:\REPOS\ASS\SuperProject\DotnetServices
+      dockerfile: JiraScrapper/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: JiraScrapper
+      target: base
+    container_name: JiraScrapper
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: jirascrapper:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net6.0/JiraScrapper.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 10
+      published: "10"
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices\JiraScrapper
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Program Files\dotnet\sdk\NuGetFallbackFolder
+      target: /root/.nuget/fallbackpackages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\al.putilin\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\REPOS\ASS\SuperProject\DotnetServices
+      target: /src
+      bind:
+        create_host_path: true
+networks:
+  default:
+    name: dockercompose8611608043351235670_default
