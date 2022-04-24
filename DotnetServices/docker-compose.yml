@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  jirascrapper:
+    image: ${DOCKER_REGISTRY-}jirascrapper
+    build:
+      context: .
+      dockerfile: JiraScrapper/Dockerfile
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+
+
+  dataaccessservice:
+    image: ${DOCKER_REGISTRY-}dataaccessservice
+    build:
+      context: .
+      dockerfile: DataAccessService/Dockerfile
+
+
+  cassandra-node1:
+    image: bitnami/cassandra:latest
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1
+    ports:
+      - "9042:9042"
+
+  cassandra-node2:
+    image: bitnami/cassandra:latest
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1
+    ports:
+      - "9043:9043"
+
+  cassandra-node3:
+    image: bitnami/cassandra:latest
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1 
+    ports:
+      - "9044:9044"
