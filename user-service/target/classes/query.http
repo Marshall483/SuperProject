@@ -1,0 +1,52 @@
+# Регистрация
+POST http://localhost:8085/api/user/register
+Content-Type: application/json
+
+{
+  "login": "azat007@gmail.com",
+  "name": "azat",
+  "password": "qwerty007"
+}
+
+###
+
+# Логин
+POST http://localhost:8085/api/user/login
+Content-Type: application/json
+
+{
+  "login": "azat007@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+
+# Получение документа pdf
+GET http://localhost:8085/api/document/type
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiY3JlYXRlZEF0IjoiMjAyMi0wMS0yNFQxNzowMDoyMi42MDAiLCJyb2xlIjoiVVNFUiIsInN0YXRlIjoiQUNUSVZFIiwiZW1haWwiOiJhemF0MDA3QGdtYWlsLmNvbSJ9.JcB34AnJveWhgkCPstH7OW8-Eg0vBnX8r5ath6PPDrE
+
+{
+  "documentName": "test",
+  "documentType" : "pdf",
+  "documentText": "test3"
+}
+
+###
+
+# Получение документа xlsx
+GET http://localhost:8085/api/document/type
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiY3JlYXRlZEF0IjoiMjAyMi0wMS0yNFQxNzowMDoyMi42MDAiLCJyb2xlIjoiVVNFUiIsInN0YXRlIjoiQUNUSVZFIiwiZW1haWwiOiJhemF0MDA3QGdtYWlsLmNvbSJ9.JcB34AnJveWhgkCPstH7OW8-Eg0vBnX8r5ath6PPDrE
+
+{
+  "documentName": "test",
+  "documentType" : "xlsx",
+  "documentText": "test3"
+}
+
+###
+
+# Logout
+GET http://localhost:8085/logout
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiY3JlYXRlZEF0IjoiMjAyMi0wMS0yNFQxNzowMDoyMi42MDAiLCJyb2xlIjoiVVNFUiIsInN0YXRlIjoiQUNUSVZFIiwiZW1haWwiOiJhemF0MDA3QGdtYWlsLmNvbSJ9.JcB34AnJveWhgkCPstH7OW8-Eg0vBnX8r5ath6PPDrE
