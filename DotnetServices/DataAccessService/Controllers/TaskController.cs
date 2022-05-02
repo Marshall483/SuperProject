@@ -1,4 +1,5 @@
-﻿using DataAccessService.Models;
+﻿using CqlPoco;
+using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
 using ISession = Cassandra.ISession;
 
@@ -18,14 +19,33 @@ public class TaskController : ControllerBase
     }
     
     [HttpGet(Name = "GetTasksBySprintID")]
-    public string GetTasksBySprintID(Guid SprintId)
+    public IActionResult GetTasksBySprintID(Guid SprintId)
     {
-        throw new NotImplementedException();
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        
+        var sprints = client.Fetch<Issue>("WHERE sprint_id = ?", SprintId);
+        
+        return new JsonResult(sprints);
     }
     
     [HttpPost(Name = "AddTask")]
-    public string AddTask(Issue Issue)
+    public IActionResult AddTask(Issue issue)
     {
-        throw new NotImplementedException();
+        if (issue.SprintId == null || issue.IssueId == null)
+            return new BadRequestResult();
+        
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+
+        try
+        {
+            client.Insert(issue);
+        }
+        catch(Exception e)
+        {
+            _logger.Log(LogLevel.Error, $"Exception while adding a new Issue: {e.Message}");
+            return new BadRequestResult();
+        }
+
+        return new OkResult();
     }
 }

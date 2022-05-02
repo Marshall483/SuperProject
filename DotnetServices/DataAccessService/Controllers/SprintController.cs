@@ -1,4 +1,5 @@
-﻿using DataAccessService.Models;
+﻿using CqlPoco;
+using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
 using ISession = Cassandra.ISession;
 
@@ -18,14 +19,33 @@ public class SprintController : ControllerBase
     }
     
     [HttpGet(Name = "GetSprintsByProjectID")]
-    public string GetSprintsByProjectID(Guid UserId)
+    public IActionResult GetSprintsByProjectID(Guid ProjectId)
     {
-        throw new NotImplementedException();
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        
+        var sprints = client.Fetch<Sprint>("WHERE project_id = ?", ProjectId);
+        
+        return new JsonResult(sprints);
     }
     
     [HttpPost(Name = "AddSprint")]
-    public string AddSprint(Sprint Sprint)
+    public IActionResult AddSprint(Sprint sprint)
     {
-        throw new NotImplementedException();
+        if (sprint.ProjectId == null || sprint.SprintId == null)
+            return new BadRequestResult();
+        
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+
+        try
+        {
+            client.Insert(sprint);
+        }
+        catch(Exception e)
+        {
+            _logger.Log(LogLevel.Error, $"Exception while adding a new Sprint: {e.Message}");
+            return new BadRequestResult();
+        }
+
+        return new OkResult();
     }
 }

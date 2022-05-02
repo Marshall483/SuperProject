@@ -21,25 +21,43 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllProjectsByUserId")]
-    public string GetAllProjectsByUserId(Guid UserId)
+    public IActionResult GetAllProjectsByUserId(Guid UserId)
     {
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
-        var projects = client.Fetch<Project>("WHERE project_id = ?", UserId);
         
-        return projects != null && projects.Any()
-            ? JsonConvert.SerializeObject(projects, Formatting.Indented) 
-            : "";
+        var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
+        
+        return new JsonResult(projects);
     }
     
     [HttpGet(Name = "GetActiveProjectsByUserID")]
-    public string GetActiveProjectsByUserID(Guid UserId)
+    public IActionResult GetActiveProjectsByUserID(Guid UserId)
     {
-        throw new NotImplementedException();
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        
+        var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
+        
+        return new JsonResult(projects.ToList().Where(p => p.IsTracked));
     }
     
     [HttpPost(Name = "AddProject")]
-    public string AddProject(Project project)
+    public IActionResult AddProject(Project project)
     {
-        throw new NotImplementedException();
+        if (project.UserId == null || project.ProjectId == null)
+            return new BadRequestResult();
+        
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+
+        try
+        {
+            client.Insert(project);
+        }
+        catch(Exception e)
+        {
+            _logger.Log(LogLevel.Error, $"Exception while adding a new project: {e.Message}");
+            return new BadRequestResult();
+        }
+
+        return new OkResult();
     }
 }
