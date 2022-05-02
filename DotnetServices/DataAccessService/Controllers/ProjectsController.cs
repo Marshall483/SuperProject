@@ -1,6 +1,8 @@
 ﻿using Cassandra;
+using CqlPoco;
 using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
@@ -21,9 +23,12 @@ public class ProjectsController : ControllerBase
     [HttpGet(Name = "GetAllProjectsByUserId")]
     public string GetAllProjectsByUserId(Guid UserId)
     {
-
+        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        var projects = client.Fetch<Project>("WHERE project_id = ?", UserId);
         
-        throw new NotImplementedException();
+        return projects != null && projects.Any()
+            ? JsonConvert.SerializeObject(projects, Formatting.Indented) 
+            : "";
     }
     
     [HttpGet(Name = "GetActiveProjectsByUserID")]
