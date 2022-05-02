@@ -2,6 +2,43 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "CassandraCSharpDriver/2.0.3": {
+        "type": "package",
+        "dependencies": {
+          "lz4net": "1.0.3.93"
+        },
+        "compile": {
+          "lib/net40/Cassandra.Data.Linq.dll": {},
+          "lib/net40/Cassandra.Data.dll": {},
+          "lib/net40/Cassandra.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Cassandra.Data.Linq.dll": {},
+          "lib/net40/Cassandra.Data.dll": {},
+          "lib/net40/Cassandra.dll": {}
+        }
+      },
+      "CqlPoco/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "CassandraCSharpDriver": "2.0.3"
+        },
+        "compile": {
+          "lib/net45/CqlPoco.dll": {}
+        },
+        "runtime": {
+          "lib/net45/CqlPoco.dll": {}
+        }
+      },
+      "lz4net/1.0.3.93": {
+        "type": "package",
+        "compile": {
+          "lib/net40-client/LZ4.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/LZ4.dll": {}
+        }
+      },
       "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
         "type": "package",
         "build": {
@@ -83,6 +120,49 @@
     }
   },
   "libraries": {
+    "CassandraCSharpDriver/2.0.3": {
+      "sha512": "Q0Tx8hFhVbMon+PKGloVpfSEtmr9ACU1yfXIPC3UOsK/LhjEvSwV0zfe4nKaYxgeh+UdIfNbJ/jV2WCmRzj/wA==",
+      "type": "package",
+      "path": "cassandracsharpdriver/2.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cassandracsharpdriver.2.0.3.nupkg.sha512",
+        "cassandracsharpdriver.nuspec",
+        "lib/net40/Cassandra.Data.Linq.dll",
+        "lib/net40/Cassandra.Data.Linq.xml",
+        "lib/net40/Cassandra.Data.dll",
+        "lib/net40/Cassandra.Data.xml",
+        "lib/net40/Cassandra.dll",
+        "lib/net40/Cassandra.xml"
+      ]
+    },
+    "CqlPoco/1.0.0": {
+      "sha512": "BVC5f8RU/4jk+gifqucLSajqCTcsllUnTAIeYhydfJ/KkBaJh5TudIJVYQsgCYnqEq1oOkfc2MdLn9sCphLWkA==",
+      "type": "package",
+      "path": "cqlpoco/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cqlpoco.1.0.0.nupkg.sha512",
+        "cqlpoco.nuspec",
+        "lib/net45/CqlPoco.XML",
+        "lib/net45/CqlPoco.dll",
+        "lib/net45/CqlPoco.pdb"
+      ]
+    },
+    "lz4net/1.0.3.93": {
+      "sha512": "Tvj7hMOr6FOx8hMb3U2k27poDEoxn+pRc8b8C2IFYvXcPcwgIFDp8r4dkKoLEnXLIQxQHhnXAWpyaa4dE3sJHA==",
+      "type": "package",
+      "path": "lz4net/1.0.3.93",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40-client/LZ4.dll",
+        "lz4net.1.0.3.93.nupkg.sha512",
+        "lz4net.nuspec"
+      ]
+    },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "sha512": "LH4OE/76F6sOCslif7+Xh3fS/wUUrE5ryeXAMcoCnuwOQGT5Smw0p57IgDh/pHgHaGz/e+AmEQb7pRgb++wt0w==",
       "type": "package",
@@ -290,6 +370,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "CqlPoco >= 1.0.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.14.0",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
@@ -338,6 +419,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "CqlPoco": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
             "target": "Package",
             "version": "[1.14.0, )"
@@ -368,5 +453,37 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CassandraCSharpDriver 2.0.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CassandraCSharpDriver",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CqlPoco 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CqlPoco",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'lz4net 1.0.3.93' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "lz4net",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
