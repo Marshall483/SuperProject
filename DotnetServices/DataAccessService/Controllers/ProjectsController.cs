@@ -1,5 +1,7 @@
-﻿using DataAccessService.Models;
+﻿using Cassandra;
+using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
+using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
 
@@ -8,15 +10,19 @@ namespace DataAccessService.Controllers;
 public class ProjectsController : ControllerBase
 {
     private readonly ILogger<ProjectsController> _logger;
+    private readonly ISession _session;
 
-    public ProjectsController(ILogger<ProjectsController> logger)
+    public ProjectsController(ILogger<ProjectsController> logger, ISession session)
     {
         _logger = logger;
+        _session = session;
     }
 
     [HttpGet(Name = "GetAllProjectsByUserId")]
     public string GetAllProjectsByUserId(Guid UserId)
     {
+
+        
         throw new NotImplementedException();
     }
     
