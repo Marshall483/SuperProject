@@ -7,9 +7,15 @@ public static class CassandraConfigurator
 {
     public static ISession Configure()
     {
-        Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").WithPort(9042)
-            .WithCredentials("cassandra", "cassandra").Build();
-        
+        var cluster = Cluster.Builder()
+            .AddContactPoint("0.0.0.0").WithPort(9042).Build();
+           /* .WithRetryPolicy(new LoggingRetryPolicy(new DefaultRetryPolicy()))
+            .WithReconnectionPolicy(new ConstantReconnectionPolicy(1000))
+            .WithCredentials("cassandra", "cassandra");*/
+
+      /*  cluster.PoolingOptions.SetCoreConnectionsPerHost(HostDistance.Local, 1);
+        cluster.SocketOptions.SetKeepAlive(true);*/
+
         return cluster.Connect("jira");
     }
 }

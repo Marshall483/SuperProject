@@ -25,3 +25,9 @@ C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\obj\Debug\net6.0\refi
 C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\obj\Debug\net6.0\DataAccessService.pdb
 C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\obj\Debug\net6.0\DataAccessService.genruntimeconfig.cache
 C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\obj\Debug\net6.0\ref\DataAccessService.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\Cassandra.Data.Linq.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\Cassandra.Data.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\Cassandra.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\CqlPoco.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\LZ4.dll
+C:\REPOS\ASS\SuperProject\DotnetServices\DataAccessService\bin\Debug\net6.0\Newtonsoft.Json.dll

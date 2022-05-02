@@ -8,10 +8,51 @@
     ".NETCoreApp,Version=v6.0": {
       "DataAccessService/1.0.0": {
         "dependencies": {
+          "CqlPoco": "1.0.0",
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.14.0",
+          "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.2.3"
         },
         "runtime": {
           "DataAccessService.dll": {}
+        }
+      },
+      "CassandraCSharpDriver/2.0.3": {
+        "dependencies": {
+          "lz4net": "1.0.3.93"
+        },
+        "runtime": {
+          "lib/net40/Cassandra.Data.Linq.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.0"
+          },
+          "lib/net40/Cassandra.Data.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.0"
+          },
+          "lib/net40/Cassandra.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.0"
+          }
+        }
+      },
+      "CqlPoco/1.0.0": {
+        "dependencies": {
+          "CassandraCSharpDriver": "2.0.3"
+        },
+        "runtime": {
+          "lib/net45/CqlPoco.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "lz4net/1.0.3.93": {
+        "runtime": {
+          "lib/net40-client/LZ4.dll": {
+            "assemblyVersion": "1.0.3.93",
+            "fileVersion": "1.0.3.93"
+          }
         }
       },
       "Microsoft.Extensions.ApiDescription.Server/3.0.0": {},
@@ -20,6 +61,15 @@
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {
             "assemblyVersion": "1.2.3.0",
             "fileVersion": "1.2.3.0"
+          }
+        }
+      },
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.14.0": {},
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
           }
         }
       },
@@ -69,6 +119,27 @@
       "serviceable": false,
       "sha512": ""
     },
+    "CassandraCSharpDriver/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Q0Tx8hFhVbMon+PKGloVpfSEtmr9ACU1yfXIPC3UOsK/LhjEvSwV0zfe4nKaYxgeh+UdIfNbJ/jV2WCmRzj/wA==",
+      "path": "cassandracsharpdriver/2.0.3",
+      "hashPath": "cassandracsharpdriver.2.0.3.nupkg.sha512"
+    },
+    "CqlPoco/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BVC5f8RU/4jk+gifqucLSajqCTcsllUnTAIeYhydfJ/KkBaJh5TudIJVYQsgCYnqEq1oOkfc2MdLn9sCphLWkA==",
+      "path": "cqlpoco/1.0.0",
+      "hashPath": "cqlpoco.1.0.0.nupkg.sha512"
+    },
+    "lz4net/1.0.3.93": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Tvj7hMOr6FOx8hMb3U2k27poDEoxn+pRc8b8C2IFYvXcPcwgIFDp8r4dkKoLEnXLIQxQHhnXAWpyaa4dE3sJHA==",
+      "path": "lz4net/1.0.3.93",
+      "hashPath": "lz4net.1.0.3.93.nupkg.sha512"
+    },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "type": "package",
       "serviceable": true,
@@ -82,6 +153,20 @@
       "sha512": "sha512-Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw==",
       "path": "microsoft.openapi/1.2.3",
       "hashPath": "microsoft.openapi.1.2.3.nupkg.sha512"
+    },
+    "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yORzATlNmCp4kEwkxznLZ3maTaUJc5yTcu3aPufY8Tq4141/bRRWsa91u8I24MR3BTCCJlZO98xuQWB4arlKCw==",
+      "path": "microsoft.visualstudio.azure.containers.tools.targets/1.14.0",
+      "hashPath": "microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.2.3": {
       "type": "package",
