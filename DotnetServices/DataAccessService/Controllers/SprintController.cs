@@ -1,6 +1,7 @@
 ﻿using CqlPoco;
 using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
@@ -19,18 +20,19 @@ public class SprintController : ControllerBase
     }
     
     [HttpGet(Name = "GetSprintsByProjectID")]
-    public IActionResult GetSprintsByProjectID(Guid ProjectId)
+    public string GetSprintsByProjectID(Guid ProjectId)
     {
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
         
         var sprints = client.Fetch<Sprint>("WHERE project_id = ?", ProjectId);
         
-        return new JsonResult(sprints);
+        return JsonConvert.SerializeObject(sprints, Formatting.Indented);
     }
     
     [HttpPost(Name = "AddSprint")]
-    public IActionResult AddSprint(Sprint sprint)
+    public IActionResult AddSprint(string sprint)
     {
+        //TODO Deserialize from string
         if (sprint.ProjectId == null || sprint.SprintId == null)
             return new BadRequestResult();
         

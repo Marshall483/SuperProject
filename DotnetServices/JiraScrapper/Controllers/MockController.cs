@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using JiraScrapper.DTO;
 using JiraScrapper.JsonSender.Abstractions;
 using JiraScrapper.MocksGenerator.Abstractions;
 using JiraScrapper.Models;
@@ -32,15 +33,23 @@ namespace JiraScrapper.Controllers
         }
         
         [HttpPost(Name = "ForNewUser")]
-        public async Task<IActionResult> ForNewUser(Guid userId)
+        public async Task<IActionResult> ForNewUser(string userGuidDto)
         {
-            if (userId == Guid.Empty)
+            UserGuidDTO? userGuidDtoModel;
+
+            try
             {
-                _logger.Log(LogLevel.Information, "Mocks for empty user`s guid were requested");
+                userGuidDtoModel = JsonConvert.DeserializeObject<UserGuidDTO>(userGuidDto);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Information, "Mocks for invalid user`s guid were requested");
                 return BadRequest();
             }
 
-            var project = _project.NewProjectForUserId(userId);
+            var userGuid = Guid.Parse(userGuidDtoModel.UserGuid);
+            
+            var project = _project.NewProjectForUserId(userGuid);
             var sprints = _sprint.ForProject(project, Random.Shared.Next(1,3));
             var issues = _issue.ForSprints(sprints, Random.Shared.Next(1, 3));
             
@@ -49,13 +58,15 @@ namespace JiraScrapper.Controllers
             var jsonIssue = JsonConvert.SerializeObject(issues, Formatting.Indented);
 
             var localhost = "127.0.0.1";
+            var dataAccessServicePort = 8083;
+            
             var tasks = new List<Task>
             {
-                _sender.SendPost(localhost, 8081, "/api/Projects/AddProject", jsonProject,
+                _sender.SendPost(localhost, dataAccessServicePort, "/api/Projects/AddProject", jsonProject,
                     LogSuccess(nameof(Project))),
-                _sender.SendPost(localhost, 8081,  "/api/Sprint/AddSprint", jsonSprint,
+                _sender.SendPost(localhost, dataAccessServicePort,  "/api/Sprint/AddSprint", jsonSprint,
                     LogSuccess(nameof(Sprint))),
-                _sender.SendPost(localhost, 8081, "/api/Task/AddTask", jsonIssue,
+                _sender.SendPost(localhost, dataAccessServicePort, "/api/Task/AddTask", jsonIssue,
                     LogSuccess(nameof(Issue)))
             };
 

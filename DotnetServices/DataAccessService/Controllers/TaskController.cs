@@ -1,6 +1,7 @@
 ﻿using CqlPoco;
 using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
@@ -19,18 +20,19 @@ public class TaskController : ControllerBase
     }
     
     [HttpGet(Name = "GetTasksBySprintID")]
-    public IActionResult GetTasksBySprintID(Guid SprintId)
+    public string GetTasksBySprintID(Guid SprintId)
     {
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
         
         var sprints = client.Fetch<Issue>("WHERE sprint_id = ?", SprintId);
         
-        return new JsonResult(sprints);
+        return JsonConvert.SerializeObject(sprints, Formatting.Indented);
     }
     
     [HttpPost(Name = "AddTask")]
-    public IActionResult AddTask(Issue issue)
+    public IActionResult AddTask(string issue)
     {
+        //TODO Deserialize from string
         if (issue.SprintId == null || issue.IssueId == null)
             return new BadRequestResult();
         

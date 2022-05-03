@@ -1,5 +1,4 @@
-﻿using Cassandra;
-using CqlPoco;
+﻿using CqlPoco;
 using DataAccessService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -21,31 +20,33 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllProjectsByUserId")]
-    public IActionResult GetAllProjectsByUserId(Guid UserId)
+    public string GetAllProjectsByUserId(Guid UserId)
     {
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
         
         var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
         
-        return new JsonResult(projects);
+        return JsonConvert.SerializeObject(projects, Formatting.Indented);
     }
     
     [HttpGet(Name = "GetActiveProjectsByUserID")]
-    public IActionResult GetActiveProjectsByUserID(Guid UserId)
+    public string GetActiveProjectsByUserID(Guid UserId)
     {
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
         
         var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
         
-        return new JsonResult(projects.ToList().Where(p => p.IsTracked));
+        return JsonConvert.SerializeObject(projects.ToList().Where(p => p.IsTracked), Formatting.Indented);
+
     }
     
     [HttpPost(Name = "AddProject")]
-    public IActionResult AddProject(Project project)
+    public IActionResult AddProject(string project)
     {
+        //TODO Deserialize from string
         if (project.UserId == null || project.ProjectId == null)
             return new BadRequestResult();
-        
+
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
 
         try
