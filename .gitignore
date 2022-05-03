@@ -38,6 +38,10 @@ pahlava/.vercel
 pahlava/build
 pahlava/vercel.json
 
+
+# IDE files
+.idea
+
 # misc
 .DS_Store
 *.pem
