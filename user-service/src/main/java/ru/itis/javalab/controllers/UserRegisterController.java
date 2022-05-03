@@ -1,5 +1,6 @@
 package ru.itis.javalab.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ public class UserRegisterController {
     private UserService userService;
 
     @PostMapping("/register")
+    @Operation(summary = "Регистрация юзера")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserForm userForm) {
         return ResponseEntity.ok(userService.registerUser(userForm));
     }
