@@ -1,13 +1,19 @@
+﻿using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace JiraScrapper.Models
+namespace JiraScrapper.Models;
+
+public class Project
 {
-    public class Project
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        
-        [JsonProperty("creator_name")]
-        public string CreatorName { get; set; }
-    }
+    [JsonProperty("project_id")]
+    public Guid ProjectId { get; set; }
+    
+    [JsonProperty("user_id")]
+    public Guid UserId { get; set; }
+    
+    [JsonProperty("project_name")]
+    public string ProjectName { get; set; }
+    
+    [JsonProperty("is_tracked")]
+    public bool IsTracked { get; set; }
 }

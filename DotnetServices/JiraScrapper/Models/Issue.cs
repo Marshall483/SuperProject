@@ -1,23 +1,24 @@
-using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace JiraScrapper.Models
+namespace JiraScrapper.Models;
+
+public class Issue
 {
-    public class Issue
-    {
-        [JsonProperty("summary")]
-        public string Summary { get; set; }
-        
-        [JsonProperty("project")]
-        public string Project { get; set; }
-        
-        [JsonProperty("created_date")]
-        public DateTime CreatedDate { get; set; }
-        
-        [JsonProperty("status")]
-        public string Status { get; set; }
-        
-        [JsonProperty("relolution_date")]
-        public DateTime RelolutionDate { get; set; }
-    }
+    [JsonProperty("sprint_id")]
+    public Guid SprintId { get; set; }
+    
+    [JsonProperty("issue_id")]
+    public Guid IssueId { get; set; }
+    
+    [JsonProperty("issue_name")]
+    public string IssueName { get; set; }
+
+    [JsonProperty("status")]
+    public string Status { get; set; }
+    
+    [JsonProperty("estimated_due_time_in_hours")]
+    public decimal EstimatedDueTimeInHours { get; set; }
+    
+    [JsonProperty("total_spent_time_in_hours")]
+    public decimal TotalSpentTimeInHours { get; set; }
 }
