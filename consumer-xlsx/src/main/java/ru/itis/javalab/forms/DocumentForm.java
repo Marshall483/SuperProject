@@ -10,7 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class DocumentForm {
-    private String documentName;
-    private String documentType;
-    private String documentText;
+    private Long id;
+    private String telegramAlias;
 }
