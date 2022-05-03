@@ -41,17 +41,17 @@ public class ProjectsController : ControllerBase
     }
     
     [HttpPost(Name = "AddProject")]
-    public IActionResult AddProject(string project)
+    public IActionResult AddProject(string projectsJson)
     {
-        //TODO Deserialize from string
-        if (project.UserId == null || project.ProjectId == null)
+        if (string.IsNullOrEmpty(projectsJson))
             return new BadRequestResult();
 
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
-
+        var projects = JsonConvert.DeserializeObject<List<Project>>(projectsJson);
+        
         try
         {
-            client.Insert(project);
+            client.Insert(projects);
         }
         catch(Exception e)
         {

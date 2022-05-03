@@ -30,17 +30,17 @@ public class SprintController : ControllerBase
     }
     
     [HttpPost(Name = "AddSprint")]
-    public IActionResult AddSprint(string sprint)
+    public IActionResult AddSprint(string sprintJson)
     {
-        //TODO Deserialize from string
-        if (sprint.ProjectId == null || sprint.SprintId == null)
+        if (string.IsNullOrEmpty(sprintJson))
             return new BadRequestResult();
         
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
-
+        var sprints = JsonConvert.DeserializeObject<List<Sprint>>(sprintJson);
+        
         try
         {
-            client.Insert(sprint);
+            client.Insert(sprints);
         }
         catch(Exception e)
         {

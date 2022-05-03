@@ -30,17 +30,18 @@ public class TaskController : ControllerBase
     }
     
     [HttpPost(Name = "AddTask")]
-    public IActionResult AddTask(string issue)
+    public IActionResult AddTask(string issuesJson)
     {
-        //TODO Deserialize from string
-        if (issue.SprintId == null || issue.IssueId == null)
+        if (string.IsNullOrEmpty(issuesJson))
             return new BadRequestResult();
         
         ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        var issues = JsonConvert.DeserializeObject<List<Issue>>(issuesJson);
+
 
         try
         {
-            client.Insert(issue);
+            client.Insert(issues);
         }
         catch(Exception e)
         {
