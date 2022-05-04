@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Box, Divider, Drawer, Theme, Typography, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/system";
 import { Article as ArticleIcon }  from '@mui/icons-material';
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Lock as LockIcon } from "../icons/lock";
 import { User as UserIcon } from "../icons/user";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-import { useTheme } from "@mui/system";
+
 
 interface Props {
   onClose: () => void;
