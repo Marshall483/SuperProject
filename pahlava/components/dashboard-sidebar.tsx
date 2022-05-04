@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Box, Divider, Drawer, Theme, Typography, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/system";
+import { Article as ArticleIcon }  from '@mui/icons-material';
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
-import { Cog as CogIcon } from "../icons/cog";
 import { Lock as LockIcon } from "../icons/lock";
 import { User as UserIcon } from "../icons/user";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-import { useTheme } from "@mui/system";
+
 
 interface Props {
   onClose: () => void;
@@ -16,22 +17,22 @@ interface Props {
 
 const items = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: <ChartBarIcon fontSize="small" />,
-    title: "Панель управления",
+    title: "Панель Статистики",
   },
   {
-    href: "/",
+    href: "/dashboard/myprojects",
+    icon: <ArticleIcon fontSize="small" />,
+    title: "Мои проекты",
+  },
+  {
+    href: "/dashboard/me",
     icon: <UserIcon fontSize="small" />,
     title: "Аккаунт",
   },
   {
-    href: "/",
-    icon: <CogIcon fontSize="small" />,
-    title: "Настройки",
-  },
-  {
-    href: "/",
+    href: "/logout",
     icon: <LockIcon fontSize="small" />,
     title: "Выход",
   },

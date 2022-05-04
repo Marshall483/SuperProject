@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Link,
   TextField,
@@ -10,22 +11,65 @@ import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { userLoginRoute, userRegisterRoute } from "../api/routes";
+import { setAuthToken } from "../api/cookieStorage";
 
 const Home = () => {
-  const [isLoginPage, setIsLoginPage] = useState(true);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(false);
   const formik = useFormik({
     initialValues: {
-      email: "",
+      login: "",
+      name: "",
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Must be a valid email")
+      login: Yup.string()
+        .email("Введите валидный email")
         .max(255)
-        .required("Email is required"),
-      password: Yup.string().max(255).required("Password is required"),
+        .required("Email обязателен"),
+      name: Yup.string()
+        .min(2, "Имя должно иметь >2 символов")
+        .max(15, "Имя должно иметь <15 символов")
+        .required(),
+      password: Yup.string()
+        .min(2, "Пароль должен иметь <15 символов")
+        .max(15, "Пароль должен иметь <15 символов")
+        .required("Пароль обязателен"),
     }),
-    onSubmit: () => {
+    onSubmit: async (user, { resetForm }) => {
+      setIsLoading(true);
+      try {
+        if (isLoginPage) {
+          const res = await axios.post(userLoginRoute, user);
+          setIsLoading(false);
+          if (res.status === 200) {
+            const token = res?.data?.token;
+            if (token) {
+              setAuthToken(token);
+              router.push("/dashboard");
+            }
+          }
+          return;
+        }
+        const res = await axios.post(userRegisterRoute, user);
+        setIsLoading(false);
+        if (res.status === 200) {
+          toast.success("Пользователь успешно добавлен");
+          resetForm();
+          setIsLoginPage(true);
+        }
+      } catch (error) {
+        toast.error(
+          error?.response?.data?.message ||
+            "Случилось что-то плохое, попробуйте перезагрузить страницу либо свяжитесь с поддержкой"
+        );
+        setIsLoading(false);
+      }
     },
   });
 
@@ -55,16 +99,29 @@ const Home = () => {
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
+              error={Boolean(formik.touched.name && formik.errors.name)}
               fullWidth
-              helperText={formik.touched.email && formik.errors.email}
+              helperText={formik.touched.name && formik.errors.name}
+              label="имя"
+              margin="normal"
+              name="name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="text"
+              value={formik.values.name}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.login && formik.errors.login)}
+              fullWidth
+              helperText={formik.touched.login && formik.errors.login}
               label="почта"
               margin="normal"
-              name="email"
+              name="login"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="email"
-              value={formik.values.email}
+              value={formik.values.login}
               variant="outlined"
             />
             <TextField
@@ -83,12 +140,14 @@ const Home = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || isLoading}
                 fullWidth
+                type="submit"
                 size="large"
                 variant="contained"
               >
-                {isLoginPage ? "Войти" : "Зарегистрироваться"}
+                {!isLoading && (isLoginPage ? "Войти" : "Зарегистрироваться")}
+                {isLoading && <CircularProgress color="inherit" />}
               </Button>
             </Box>
             <Typography color="textSecondary" variant="body2">
@@ -96,6 +155,7 @@ const Home = () => {
               <Link
                 underline="hover"
                 onClick={() => {
+                  formik.resetForm();
                   setIsLoginPage((s) => !s);
                 }}
                 sx={{
