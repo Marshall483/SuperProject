@@ -4,8 +4,6 @@ import { styled } from "@mui/material/styles";
 import { DashboardNavbar } from "./dashboard-navbar";
 import { DashboardSidebar } from "./dashboard-sidebar";
 import Head from "next/head";
-import { getAuthToken } from "../api/cookieStorage";
-import { GetServerSidePropsContext } from "next";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
