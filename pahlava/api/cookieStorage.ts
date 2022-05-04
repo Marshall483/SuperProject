@@ -9,9 +9,14 @@ const setAuthToken = (token: string) => {
 
 const removeAuthToken = () => removeCookies(AUTH_TOKEN_NAME);
 
-const getAuthToken = (ctx?: GetServerSidePropsContext) =>
-  ctx
-    ? String(getCookie(AUTH_TOKEN_NAME, ctx))
-    : String(getCookie(AUTH_TOKEN_NAME));
+const getAuthToken = (ctx?: GetServerSidePropsContext) => {
+  let cookie;
+  if (ctx) {
+    cookie = getCookie(AUTH_TOKEN_NAME, ctx);
+  } else {
+    cookie = getCookie(AUTH_TOKEN_NAME);
+  }
+  return cookie === undefined ? "" : String(cookie);
+};
 
 export { setAuthToken, removeAuthToken, getAuthToken };
