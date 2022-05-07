@@ -21,8 +21,6 @@ builder.Services.AddSingleton<ISprintMocker, SprintMocker>();
 
 builder.Services.AddTransient<IJsonSender, JsonSender>();
 
-builder.Services.AddCors();
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(

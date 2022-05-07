@@ -28,7 +28,7 @@ public class TaskController : ControllerBase
         var getSprintsResult = GetSprintsBySprintId(sprintId);
         
         return getSprintsResult.Success
-            ? new JsonResult(JsonConvert.SerializeObject(getSprintsResult.Result, Formatting.Indented))
+            ? new JsonResult(getSprintsResult.Result)
             : BadRequest(getSprintsResult.Error.Message);
     }
     
