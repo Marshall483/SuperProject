@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using JiraScrapper.DTO;
+﻿using JiraScrapper.DTO;
 using JiraScrapper.JsonSender.Abstractions;
 using JiraScrapper.MocksGenerator.Abstractions;
 using JiraScrapper.Models;

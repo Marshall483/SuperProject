@@ -1,8 +1,8 @@
-﻿using CqlPoco;
+﻿using Cassandra.NET;
 using DataAccessService.Models;
+using DataAccessService.OperationResult;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
 
@@ -11,22 +11,25 @@ namespace DataAccessService.Controllers;
 public class TaskController : ControllerBase
 {
     private readonly ILogger<TaskController> _logger;
-    private readonly ISession _session;
 
-    public TaskController(ILogger<TaskController> logger, ISession session)
+    public TaskController(ILogger<TaskController> logger)
     {
         _logger = logger;
-        _session = session;
     }
     
     [HttpGet(Name = "GetTasksBySprintID")]
-    public string GetTasksBySprintID(Guid SprintId)
+    public IActionResult GetTasksBySprintID(string SprintId)
     {
-        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        if (!Guid.TryParse(SprintId, out var sprintId))
+        {
+            return BadRequest("Invalid Guid was provided");
+        }
         
-        var sprints = client.Fetch<Issue>("WHERE sprint_id = ?", SprintId);
+        var getSprintsResult = GetSprintsBySprintId(sprintId);
         
-        return JsonConvert.SerializeObject(sprints, Formatting.Indented);
+        return getSprintsResult.Success
+            ? new JsonResult(JsonConvert.SerializeObject(getSprintsResult.Result, Formatting.Indented))
+            : BadRequest(getSprintsResult.Error.Message);
     }
     
     [HttpPost(Name = "AddTask")]
@@ -35,13 +38,12 @@ public class TaskController : ControllerBase
         if (string.IsNullOrEmpty(issuesJson))
             return new BadRequestResult();
         
-        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
         var issues = JsonConvert.DeserializeObject<List<Issue>>(issuesJson);
-
 
         try
         {
-            client.Insert(issues);
+            dataContext.AddOrUpdate(issues);
         }
         catch(Exception e)
         {
@@ -50,5 +52,23 @@ public class TaskController : ControllerBase
         }
 
         return new OkResult();
+    }
+    
+    private OperationResult<IEnumerable<Issue>, Exception> GetSprintsBySprintId(Guid sprintId)
+    {
+        IEnumerable<Issue> issues = new List<Issue>();
+        
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+        
+        try
+        {
+            issues = dataContext.Select<Issue>(p => p.SprintId == sprintId);
+        }
+        catch (Exception ex)
+        {
+            return new FailedOperationResult<IEnumerable<Issue>, Exception>(ex); 
+        }
+
+        return new SucceededOperationResult<IEnumerable<Issue>, Exception>(issues);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Cassandra.Data.Linq;
-using CqlPoco;
+using Cassandra.NET.Attributes;
 using Newtonsoft.Json;
 
 namespace DataAccessService.Models;
@@ -12,23 +12,23 @@ namespace DataAccessService.Models;
     PRIMARY KEY ( (user_id), project_id )
 );*/
 
-[TableName("project")]
+[CassandraTable("project")]
 public class Project
 {
-    [CqlPoco.Column("project_id")]
+    [CassandraProperty("project_id")]
     [JsonProperty("project_id")]
     public Guid ProjectId { get; set; }
     
     [PartitionKey]
-    [CqlPoco.Column("user_id")]
+    [CassandraProperty("user_id")]
     [JsonProperty("user_id")]
     public Guid UserId { get; set; }
     
-    [CqlPoco.Column("project_name")]
+    [CassandraProperty("project_name")]
     [JsonProperty("project_name")]
     public string ProjectName { get; set; }
 
-    [CqlPoco.Column("is_tracked")]
+    [CassandraProperty("is_tracked")]
     [JsonProperty("is_tracked")]
     public bool IsTracked { get; set; }
 }

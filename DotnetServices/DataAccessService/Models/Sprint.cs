@@ -1,5 +1,4 @@
-﻿using Cassandra.Data.Linq;
-using CqlPoco;
+﻿using Cassandra.NET.Attributes;
 using Newtonsoft.Json;
 
 namespace DataAccessService.Models;
@@ -11,19 +10,18 @@ namespace DataAccessService.Models;
     PRIMARY KEY ( (project_id), sprint_id )
 );*/
 
-[TableName("sprint")]
+[CassandraTable("sprint")]
 public class Sprint
 {
-    [PartitionKey]
-    [CqlPoco.Column("project_id")]
+    [CassandraProperty("project_id")]
     [JsonProperty("project_id")]
     public Guid ProjectId { get; set; }
     
-    [CqlPoco.Column("sprint_id")]
+    [CassandraProperty("sprint_id")]
     [JsonProperty("sprint_id")]
     public Guid SprintId { get; set; }
     
-    [CqlPoco.Column("sprint_name")]
+    [CassandraProperty("sprint_name")]
     [JsonProperty("sprint_name")]
     public string SprintName { get; set; }
 }

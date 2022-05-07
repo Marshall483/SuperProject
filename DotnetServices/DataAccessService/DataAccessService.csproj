@@ -10,10 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CqlPoco" Version="1.0.0" />
+    <PackageReference Include="Cassandra.NET" Version="1.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Cassandra, Version=2.0.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>bin\Debug\net6.0\Cassandra.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

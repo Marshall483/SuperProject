@@ -1,8 +1,8 @@
-﻿using CqlPoco;
+﻿using Cassandra.NET;
 using DataAccessService.Models;
+using DataAccessService.OperationResult;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ISession = Cassandra.ISession;
 
 namespace DataAccessService.Controllers;
 
@@ -11,47 +11,54 @@ namespace DataAccessService.Controllers;
 public class ProjectsController : ControllerBase
 {
     private readonly ILogger<ProjectsController> _logger;
-    private readonly ISession _session;
 
-    public ProjectsController(ILogger<ProjectsController> logger, ISession session)
+    public ProjectsController(ILogger<ProjectsController> logger)
     {
         _logger = logger;
-        _session = session;
     }
 
     [HttpGet(Name = "GetAllProjectsByUserId")]
-    public string GetAllProjectsByUserId(Guid UserId)
+    public IActionResult GetAllProjectsByUserId(string UserId)
     {
-        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
-        
-        var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
-        
-        return JsonConvert.SerializeObject(projects, Formatting.Indented);
+        if (!Guid.TryParse(UserId, out var userId))
+        {
+            return BadRequest("Invalid Guid was provided");
+        }
+
+        var getProjectsResult = GetProjectsByUserId(userId);
+
+        return getProjectsResult.Success
+            ? new JsonResult(JsonConvert.SerializeObject(getProjectsResult.Result, Formatting.Indented))
+            : BadRequest(getProjectsResult.Error.Message);
     }
     
     [HttpGet(Name = "GetActiveProjectsByUserID")]
-    public string GetActiveProjectsByUserID(Guid UserId)
+    public IActionResult GetActiveProjectsByUserID(string UserId)
     {
-        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
-        
-        var projects = client.Fetch<Project>("WHERE user_id = ?", UserId);
-        
-        return JsonConvert.SerializeObject(projects.ToList().Where(p => p.IsTracked), Formatting.Indented);
+        if (!Guid.TryParse(UserId, out var userId))
+        {
+            return BadRequest("Invalid Guid was provided");
+        }
 
+        var getProjectsResult = GetProjectsByUserId(userId);
+        
+        return getProjectsResult.Success
+            ? new JsonResult(JsonConvert.SerializeObject(getProjectsResult.Result.Where(p => p.IsTracked), Formatting.Indented))
+            : BadRequest(getProjectsResult.Error.Message);
     }
     
     [HttpPost(Name = "AddProject")]
     public IActionResult AddProject(string projectsJson)
     {
         if (string.IsNullOrEmpty(projectsJson))
-            return new BadRequestResult();
+            return BadRequest("Empty json");
 
-        ICqlClient client = CqlClientConfiguration.ForSession(_session).BuildCqlClient();
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
         var projects = JsonConvert.DeserializeObject<List<Project>>(projectsJson);
         
         try
         {
-            client.Insert(projects);
+            dataContext.AddOrUpdate(projects);
         }
         catch(Exception e)
         {
@@ -60,5 +67,23 @@ public class ProjectsController : ControllerBase
         }
 
         return new OkResult();
+    }
+
+    private OperationResult<IEnumerable<Project>, Exception> GetProjectsByUserId(Guid userId)
+    {
+        IEnumerable<Project> projects = new List<Project>();
+        
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+        
+        try
+        {
+            projects = dataContext.Select<Project>(p => p.UserId == userId);
+        }
+        catch (Exception ex)
+        {
+            return new FailedOperationResult<IEnumerable<Project>, Exception>(ex); 
+        }
+
+        return new SucceededOperationResult<IEnumerable<Project>, Exception>(projects);
     }
 }
