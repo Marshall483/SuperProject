@@ -1,4 +1,4 @@
-package ru.itis.javalab.services;
+package ru.itis.javalab.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,22 +7,28 @@ import ru.itis.javalab.dto.DocumentDto;
 import ru.itis.javalab.exceptions.XlsxGenerationException;
 import ru.itis.javalab.forms.DocumentForm;
 import ru.itis.javalab.models.Document;
+import ru.itis.javalab.models.WebClientModel;
 import ru.itis.javalab.repositories.DocumentRepository;
+import ru.itis.javalab.services.DocumentService;
+import ru.itis.javalab.services.WebClientService;
 import ru.itis.javalab.utils.XlsxReport;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
     private XlsxReport xlsxReport;
     private DocumentRepository documentRepository;
+    private WebClientService webClientService;
 
     @Autowired
-    public DocumentServiceImpl(XlsxReport xlsxReport, DocumentRepository documentRepository) {
+    public DocumentServiceImpl(XlsxReport xlsxReport, DocumentRepository documentRepository, WebClientService webClientService) {
         this.xlsxReport = xlsxReport;
         this.documentRepository = documentRepository;
+        this.webClientService = webClientService;
     }
 
     /**
@@ -33,11 +39,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public Long generateExport(DocumentForm documentForm) {
         Long docId = documentRepository.save(Document.builder().build()).getId();
-        /* TODO: запрос на сервис Александра с последующим получением данных и отправкой на сервис генерации.
-            documentForm передается как мок объект.
-         */
-
-        xlsxReport.getXlsxReport(documentForm, docId, false);
+        List<WebClientModel> data = webClientService.getValue(documentForm.getId().toString());
+        xlsxReport.getXlsxReport(data, docId, false);
         return docId;
     }
 
@@ -49,7 +52,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public Long generateExportForSending(DocumentForm documentForm) {
         Long docId = documentRepository.save(Document.builder().isReady(Boolean.FALSE).build()).getId();
-        xlsxReport.getXlsxReport(documentForm, docId, true);
+        List<WebClientModel> data = webClientService.getValue(documentForm.getId().toString());
+        xlsxReport.getXlsxReport(data, docId, true);
         return docId;
     }
 

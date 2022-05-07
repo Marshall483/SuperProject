@@ -12,6 +12,7 @@ import ru.itis.javalab.constants.DateOptions;
 import ru.itis.javalab.exceptions.XlsxGenerationException;
 import ru.itis.javalab.forms.DocumentForm;
 import ru.itis.javalab.models.Document;
+import ru.itis.javalab.models.WebClientModel;
 import ru.itis.javalab.rabbit.RabbitOption;
 import ru.itis.javalab.rabbit.RoutingKeys;
 import ru.itis.javalab.repositories.DocumentRepository;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class XlsxReport {
@@ -41,7 +43,7 @@ public class XlsxReport {
     }
 
     @Async
-    public void getXlsxReport(DocumentForm documentForm, Long id, boolean isTelegram) {
+    public void getXlsxReport(List<WebClientModel> data, Long id, boolean isTelegram) {
         ByteArrayOutputStream outputStream;
 
         try {
