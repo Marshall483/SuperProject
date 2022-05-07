@@ -21,6 +21,19 @@ builder.Services.AddSingleton<ISprintMocker, SprintMocker>();
 
 builder.Services.AddTransient<IJsonSender, JsonSender>();
 
+builder.Services.AddCors();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:44351", "http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
