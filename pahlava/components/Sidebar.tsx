@@ -6,8 +6,8 @@ import { Article as ArticleIcon }  from '@mui/icons-material';
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Lock as LockIcon } from "../icons/lock";
 import { User as UserIcon } from "../icons/user";
-import { Logo } from "./logo";
-import { NavItem } from "./nav-item";
+import { Logo } from "./Logo";
+import { NavItem } from "./NavItem";
 
 
 interface Props {
@@ -38,7 +38,7 @@ const items = [
   },
 ];
 
-export const DashboardSidebar = (props: Props) => {
+export const Sidebar = (props: Props) => {
   const { open, onClose } = props;
   const router = useRouter();
   const theme = useTheme()

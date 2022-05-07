@@ -1,11 +1,11 @@
 import { ReactNode, useState } from "react";
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DashboardNavbar } from "./dashboard-navbar";
-import { DashboardSidebar } from "./dashboard-sidebar";
+import { Navbar } from "../Navbar";
+import { Sidebar } from "../Sidebar";
 import Head from "next/head";
 
-const DashboardLayoutRoot = styled("div")(({ theme }) => ({
+const LayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   maxWidth: "100%",
@@ -26,7 +26,7 @@ export const DashboardLayout = (props: Props) => {
 
   return (
     <>
-      <DashboardLayoutRoot>
+      <LayoutRoot>
         <Head>
           <title>{title}</title>
         </Head>
@@ -41,9 +41,9 @@ export const DashboardLayout = (props: Props) => {
         >
           {children}
         </Container>
-      </DashboardLayoutRoot>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar
+      </LayoutRoot>
+      <Navbar onSidebarOpen={() => setSidebarOpen(true)} />
+      <Sidebar
         onClose={() => setSidebarOpen(false)}
         open={isSidebarOpen}
       />
