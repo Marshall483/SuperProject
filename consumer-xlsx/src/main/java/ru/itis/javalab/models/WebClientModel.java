@@ -18,5 +18,4 @@ public class WebClientModel {
     private String projectName;
     private double estimatedDueTimeInHours;
     private double totalSpentTimeInHours;
-
 }
