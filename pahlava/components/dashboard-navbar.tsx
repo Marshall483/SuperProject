@@ -55,24 +55,8 @@ export const DashboardNavbar = (props: Props) => {
         >
           <MenuIcon fontSize="small" />
         </IconButton>
-        <Tooltip title="Поиск">
-          <IconButton sx={{ ml: 1 }}>
-            <SearchIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
         <Box sx={{ flexGrow: 1 }} />
-        <Tooltip title="Контакты">
-          <IconButton sx={{ ml: 1 }}>
-            <UsersIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Уведомления">
-          <IconButton sx={{ ml: 1 }}>
-            <Badge badgeContent={4} color="primary" variant="dot">
-              <BellIcon fontSize="small" />
-            </Badge>
-          </IconButton>
-        </Tooltip>
+
         <Avatar
           sx={{
             height: 40,

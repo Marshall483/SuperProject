@@ -22,13 +22,13 @@ builder.Services.AddTransient<IJsonSender, JsonSender>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        options.AddDefaultPolicy(
+                builder =>
+                {
+                        builder.AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                });
 });
 
 var app = builder.Build();

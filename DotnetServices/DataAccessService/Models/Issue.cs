@@ -8,6 +8,7 @@ namespace DataAccessService.Models;
     sprint_id uuid,
     task_name text,
     status text,
+    project_name text,
     estimated_due_time_in_hours decimal,
     total_spent_time_in_hours decimal,
     PRIMARY KEY ( (sprint_id), task_id )
@@ -27,14 +28,14 @@ public class Issue
     [CassandraProperty("task_name")]
     [JsonProperty("IssueName")]
     public string IssueName { get; set; }
-    
-    [CassandraProperty("project_name")]
-    [JsonProperty("ProjectName")]
-    public string ProjectName { get; set; }
-    
+
     [CassandraProperty("status")]
     [JsonProperty("Status")]
     public string Status { get; set; }
+
+    [CassandraProperty("project_name")]
+    [JsonProperty("project_name")]
+    public string ProjectName { get; set; }
     
     [CassandraProperty("estimated_due_time_in_hours")]
     [JsonProperty("EstimatedDueTimeInHours")]

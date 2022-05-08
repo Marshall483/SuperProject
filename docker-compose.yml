@@ -56,6 +56,8 @@ services:
     depends_on:
       #      - producer
       - rabbitmq
+    ports:
+      - "8081:8081"
     env_file:
       - backend.env
     networks:
