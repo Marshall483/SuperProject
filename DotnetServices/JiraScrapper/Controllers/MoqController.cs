@@ -34,8 +34,8 @@ namespace JiraScrapper.Controllers
             var userGuid = Guid.Parse(userGuidDto.UserGuid);
             
             var project = _project.NewProjectForUserId(userGuid);
-            var sprints = _sprint.ForProject(project, Random.Shared.Next(5,11));
-            var issues = _issue.ForSprints(sprints, Random.Shared.Next(10, 31), project.ProjectName);
+            var sprints = _sprint.ForProject(project.First(), Random.Shared.Next(5,11));
+            var issues = _issue.ForSprints(sprints, Random.Shared.Next(10, 31), project.First().ProjectName);
             
             var jsonProject = JsonConvert.SerializeObject(project, Formatting.Indented);
             var jsonSprint = JsonConvert.SerializeObject(sprints, Formatting.Indented);
@@ -46,7 +46,7 @@ namespace JiraScrapper.Controllers
             var dataAccessServicePort = 5003;
 #else
             var localhost = "dataaccessservice";
-            var dataAccessServicePort = 8083;
+            var dataAccessServicePort = 80;
 #endif
             
             var tasks = new List<Task>

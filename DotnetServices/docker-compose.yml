@@ -45,6 +45,8 @@ services:
 
   dataaccessservice:
     image: ${DOCKER_REGISTRY-}dataaccessservice
+    volumes:
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     ports:
       - "5003:443"
       - "8083:80"
@@ -56,8 +58,6 @@ services:
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-    volumes:
-      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: .
       dockerfile: DataAccessService/Dockerfile
@@ -102,6 +102,21 @@ services:
       - "9044:9044"
     networks:
       - backend
+
+ # cassandra-load-keyspace:
+ #     container_name: cassandra-loader
+ #     image: cassandra:latest
+ #     depends_on:
+ #       - cassandra-node1
+ #       - cassandra-node2
+ #       - cassandra-node3
+ #     volumes:
+ #       - ./init-scripts/init.cql:/init.cql
+ #     ports:
+ #       - "9045:9045"
+ #     networks:
+ #       - backend
+ #     command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /init.cql"
 
 networks:
   backend:

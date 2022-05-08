@@ -48,7 +48,7 @@ public class ProjectsController : ControllerBase
     }
     
     [HttpPost(Name = "AddOrUpdateProject")]
-    public IActionResult AddOrUpdateProject([FromBody] List<Project> project)
+    public IActionResult AddOrUpdateProject([FromBody] List<Project> projects)
     {
 #if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
@@ -57,7 +57,10 @@ public class ProjectsController : ControllerBase
 #endif        
         try
         {
-            dataContext.AddOrUpdate(project);
+            foreach (var project in projects)
+            {
+                dataContext.AddOrUpdate(project);
+            }
         }
         catch(Exception e)
         {
