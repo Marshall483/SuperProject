@@ -17,26 +17,30 @@ namespace DataAccessService.Models;
 public class Issue
 {
     [CassandraProperty("sprint_id")]
-    [JsonProperty("sprint_id")]
+    [JsonProperty("SprintId")]
     public Guid SprintId { get; set; }
     
     [CassandraProperty("task_id")]
-    [JsonProperty("issue_id")]
+    [JsonProperty("IssueId")]
     public Guid IssueId { get; set; }
     
     [CassandraProperty("task_name")]
-    [JsonProperty("issue_name")]
+    [JsonProperty("IssueName")]
     public string IssueName { get; set; }
     
+    [CassandraProperty("project_name")]
+    [JsonProperty("ProjectName")]
+    public string ProjectName { get; set; }
+    
     [CassandraProperty("status")]
-    [JsonProperty("status")]
+    [JsonProperty("Status")]
     public string Status { get; set; }
     
     [CassandraProperty("estimated_due_time_in_hours")]
-    [JsonProperty("estimated_due_time_in_hours")]
+    [JsonProperty("EstimatedDueTimeInHours")]
     public decimal EstimatedDueTimeInHours { get; set; }
     
     [CassandraProperty("total_spent_time_in_hours")]
-    [JsonProperty("total_spent_time_in_hours")]
+    [JsonProperty("TotalSpentTimeInHours")]
     public decimal TotalSpentTimeInHours { get; set; }
 }

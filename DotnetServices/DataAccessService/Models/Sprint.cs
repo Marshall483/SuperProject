@@ -14,14 +14,14 @@ namespace DataAccessService.Models;
 public class Sprint
 {
     [CassandraProperty("project_id")]
-    [JsonProperty("project_id")]
+    [JsonProperty("ProjectId")]
     public Guid ProjectId { get; set; }
     
     [CassandraProperty("sprint_id")]
-    [JsonProperty("sprint_id")]
+    [JsonProperty("SprintId")]
     public Guid SprintId { get; set; }
     
     [CassandraProperty("sprint_name")]
-    [JsonProperty("sprint_name")]
+    [JsonProperty("SprintName")]
     public string SprintName { get; set; }
 }

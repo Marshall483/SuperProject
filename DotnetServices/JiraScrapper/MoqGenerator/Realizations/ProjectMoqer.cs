@@ -3,7 +3,7 @@ using JiraScrapper.Models;
 
 namespace JiraScrapper.MocksGenerator.Realizations;
 
-public class ProjectMocker : IProjectMocker
+public class ProjectMoqer : IProjectMoqer
 {
     public Project NewProjectForUserId(Guid UserId)
     {

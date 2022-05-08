@@ -15,26 +15,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IProjectMocker, ProjectMocker>();
-builder.Services.AddSingleton<IIssueMocker, IssueMocker>();
-builder.Services.AddSingleton<ISprintMocker, SprintMocker>();
-
+builder.Services.AddSingleton<IProjectMoqer, ProjectMoqer>();
+builder.Services.AddSingleton<IIssueMoqer, IssueMoqer>();
+builder.Services.AddSingleton<ISprintMoqer, SprintMoqer>();
 builder.Services.AddTransient<IJsonSender, JsonSender>();
-
-builder.Services.AddCors();
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("https://localhost:44351", "http://localhost:4200")
+            builder.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
 });
 
 var app = builder.Build();
+
+#if DEBUG
+app.Urls.Add("http://localhost:5001");
+app.Urls.Add( "https://localhost:5002");
+#endif
 
 app.UseSwagger();
 app.UseSwaggerUI();

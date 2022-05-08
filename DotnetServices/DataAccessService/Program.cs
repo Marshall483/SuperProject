@@ -6,20 +6,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCors();
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("https://localhost:44351", "http://localhost:4200")
+            builder.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
 });
 
 var app = builder.Build();
+
+#if DEBUG
+app.Urls.Add("http://localhost:5003");
+app.Urls.Add( "https://localhost:5004");
+#endif
 
 app.UseSwagger();
 app.UseSwaggerUI();

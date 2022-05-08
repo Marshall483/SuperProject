@@ -34,17 +34,16 @@ public class SprintController : ControllerBase
     }
     
     [HttpPost(Name = "AddSprint")]
-    public IActionResult AddSprint(string sprintJson)
+    public IActionResult AddSprint([FromBody] List<Sprint> sprints)
     {
-        if (string.IsNullOrEmpty(sprintJson))
-            return new BadRequestResult();
-        
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        var sprint = JsonConvert.DeserializeObject<List<Sprint>>(sprintJson);
         
         try
         {
-            dataContext.AddOrUpdate(sprint);
+            foreach (var sptint in sprints)
+            {
+                dataContext.AddOrUpdate(sptint);
+            }
         }
         catch(Exception e)
         {

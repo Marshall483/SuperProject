@@ -2,7 +2,7 @@
 
 namespace JiraScrapper.MocksGenerator.Abstractions;
 
-public interface IProjectMocker
+public interface IProjectMoqer
 {
     public Project NewProjectForUserId(Guid UserId);
 }

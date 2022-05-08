@@ -4,6 +4,6 @@ namespace DataAccessService.DTO;
 
 public class UserGuidDTO
 {
-    [JsonProperty("user_guid")]
+    [JsonProperty("UserGuid")]
     public string UserGuid { get; set; }
 }

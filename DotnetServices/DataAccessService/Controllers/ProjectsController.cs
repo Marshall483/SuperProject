@@ -48,17 +48,13 @@ public class ProjectsController : ControllerBase
     }
     
     [HttpPost(Name = "AddProject")]
-    public IActionResult AddProject(string projectsJson)
+    public IActionResult AddProject([FromBody] Project project)
     {
-        if (string.IsNullOrEmpty(projectsJson))
-            return BadRequest("Empty json");
-
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        var projects = JsonConvert.DeserializeObject<List<Project>>(projectsJson);
         
         try
         {
-            dataContext.AddOrUpdate(projects);
+            dataContext.AddOrUpdate(project);
         }
         catch(Exception e)
         {

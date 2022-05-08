@@ -27,8 +27,8 @@ public class EventController : ControllerBase
         }
         
         var localhost = "127.0.0.1";
-        var jiraScrapperPort = 8081;
-        var endpointPath = "/Mock/ForNewUser";
+        var jiraScrapperPort = 5001;
+        var endpointPath = "/api/Moq/ForNewUser";
         var userGuidJson = JsonConvert.SerializeObject(
             new UserGuidDTO {UserGuid = userGuid.ToString()});
         
@@ -41,15 +41,17 @@ public class EventController : ControllerBase
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json")); 
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "relativeAddress");
+            var request = new HttpRequestMessage(HttpMethod.Post, address);
 
             request.Content = new StringContent(userGuidJson,
                 Encoding.UTF8,
                 "application/json");
 
-            await client.SendAsync(request);
-        }
+            var res = await client.SendAsync(request);
 
-        return new OkResult();
+            return res.IsSuccessStatusCode
+                ? new OkResult()
+                : BadRequest();
+        }
     }
 }

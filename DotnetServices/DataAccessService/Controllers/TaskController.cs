@@ -28,26 +28,24 @@ public class TaskController : ControllerBase
             return BadRequest("Invalid Guid was provided");
         }
         
-        var getSprintsResult = GetSprintsBySprintId(sprintId);
+        var getSprintsResult = GetTasksBySprintId(sprintId);
         
         return getSprintsResult.Success
-            ? new JsonResult(JsonConvert.SerializeObject(getSprintsResult.Result, Formatting.Indented))
+            ? new JsonResult(getSprintsResult.Result)
             : BadRequest(getSprintsResult.Error.Message);
     }
     
     [HttpPost(Name = "AddTask")]
-    public IActionResult AddTask(string issuesJson)
+    public IActionResult AddTask([FromBody] List<Issue> issues)
     {
-        if (string.IsNullOrEmpty(issuesJson))
-            return new BadRequestResult();
+        using var dataContext = new CassandraDataContext(new[] { /* "cassandra-node1", "cassandra-node2", "cassandra-node3",*/ "127.0.0.1" }, "jira");
         
-        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-
-        var issues = JsonConvert.DeserializeObject<List<Issue>>(issuesJson);
-
         try
         {
-            dataContext.AddOrUpdate(issues);
+            foreach (var issue in issues)
+            {
+                dataContext.AddOrUpdate(issue);
+            }        
         }
         catch(Exception e)
         {
@@ -58,13 +56,13 @@ public class TaskController : ControllerBase
         return new OkResult();
     }
     
-    private OperationResult<IEnumerable<Issue>, Exception> GetSprintsBySprintId(Guid sprintId)
+    private OperationResult<IEnumerable<Issue>, Exception> GetTasksBySprintId(Guid sprintId)
     {
-        List<Issue> issues = new List<Issue>();
+        IEnumerable<Issue> issues = new List<Issue>();
         
-       // using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+        using var dataContext = new CassandraDataContext(new[] { /*"cassandra-node1", "cassandra-node2", "cassandra-node3",*/ "127.0.0.1" }, "jira");
 
-        var builder = Cluster.Builder()
+      /*  var builder = Cluster.Builder()
             .AddContactPoints(new[] {"cassandra-node1"})
             .WithPort(9042)
             .WithCredentials("cassandra", "cassandra")
@@ -74,14 +72,11 @@ public class TaskController : ControllerBase
             new RetryLoadBalancingPolicy(
                 new RoundRobinPolicy(), new ConstantReconnectionPolicy(1000)));
 
-        using var dataContext = builder.Build().Connect("jira");
+        using var dataContext = builder.Build().Connect("jira");*/
 
         try
         {
-            var res = dataContext.Execute("SELECT * FROM task");
-            
-            foreach (Row row in res)
-                issues.Add(Mapper.Map<Issue>(row));
+            issues = dataContext.Select<Issue>(issue => issue.SprintId == sprintId);
         }
         catch (Exception ex)
         {
