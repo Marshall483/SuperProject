@@ -27,10 +27,6 @@ app.Urls.Add( "https://localhost:5004");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//TODO Create a model for cheese and bins for frontend
-//TODO Add project name to issue
-//TODO change return type of json
-
 app.MapControllers();
 
 app.Run();

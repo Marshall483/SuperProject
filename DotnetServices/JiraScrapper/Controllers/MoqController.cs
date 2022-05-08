@@ -41,12 +41,17 @@ namespace JiraScrapper.Controllers
             var jsonSprint = JsonConvert.SerializeObject(sprints, Formatting.Indented);
             var jsonIssue = JsonConvert.SerializeObject(issues, Formatting.Indented);
 
+#if DEBUG
             var localhost = "127.0.0.1";
             var dataAccessServicePort = 5003;
-
+#else
+            var localhost = "dataaccessservice";
+            var dataAccessServicePort = 8083;
+#endif
+            
             var tasks = new List<Task>
             {
-                _sender.SendPost(localhost, dataAccessServicePort, "/api/Projects/AddProject", jsonProject,
+                _sender.SendPost(localhost, dataAccessServicePort, "/api/Projects/AddOrUpdateProject", jsonProject,
                     LogSuccess(nameof(Project))),
                 _sender.SendPost(localhost, dataAccessServicePort, "/api/Sprint/AddSprint", jsonSprint,
                     LogSuccess(nameof(Sprint))),

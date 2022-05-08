@@ -26,8 +26,14 @@ public class EventController : ControllerBase
             return BadRequest();
         }
         
+#if DEBUG
         var localhost = "127.0.0.1";
         var jiraScrapperPort = 5001;
+#else
+        var localhost = "jirascrapper";
+        var jiraScrapperPort = 8081;
+#endif
+        
         var endpointPath = "/api/Moq/ForNewUser";
         var userGuidJson = JsonConvert.SerializeObject(
             new UserGuidDTO {UserGuid = userGuid.ToString()});

@@ -28,7 +28,7 @@ public class ProjectsController : ControllerBase
         var getProjectsResult = GetProjectsByUserId(userId);
 
         return getProjectsResult.Success
-            ? new JsonResult(JsonConvert.SerializeObject(getProjectsResult.Result, Formatting.Indented))
+            ? new JsonResult(getProjectsResult.Result)
             : BadRequest(getProjectsResult.Error.Message);
     }
     
@@ -43,15 +43,18 @@ public class ProjectsController : ControllerBase
         var getProjectsResult = GetProjectsByUserId(userId);
         
         return getProjectsResult.Success
-            ? new JsonResult(JsonConvert.SerializeObject(getProjectsResult.Result.Where(p => p.IsTracked), Formatting.Indented))
+            ? new JsonResult(getProjectsResult.Result.Where(p => p.IsTracked))
             : BadRequest(getProjectsResult.Error.Message);
     }
     
-    [HttpPost(Name = "AddProject")]
-    public IActionResult AddProject([FromBody] Project project)
+    [HttpPost(Name = "AddOrUpdateProject")]
+    public IActionResult AddOrUpdateProject([FromBody] List<Project> project)
     {
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif        
         try
         {
             dataContext.AddOrUpdate(project);
@@ -68,8 +71,12 @@ public class ProjectsController : ControllerBase
     private OperationResult<IEnumerable<Project>, Exception> GetProjectsByUserId(Guid userId)
     {
         IEnumerable<Project> projects = new List<Project>();
-        
+
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif
         
         try
         {

@@ -38,7 +38,11 @@ public class TaskController : ControllerBase
     [HttpPost(Name = "AddTask")]
     public IActionResult AddTask([FromBody] List<Issue> issues)
     {
-        using var dataContext = new CassandraDataContext(new[] { /* "cassandra-node1", "cassandra-node2", "cassandra-node3",*/ "127.0.0.1" }, "jira");
+#if DEBUG
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif
         
         try
         {
@@ -60,20 +64,12 @@ public class TaskController : ControllerBase
     {
         IEnumerable<Issue> issues = new List<Issue>();
         
-        using var dataContext = new CassandraDataContext(new[] { /*"cassandra-node1", "cassandra-node2", "cassandra-node3",*/ "127.0.0.1" }, "jira");
-
-      /*  var builder = Cluster.Builder()
-            .AddContactPoints(new[] {"cassandra-node1"})
-            .WithPort(9042)
-            .WithCredentials("cassandra", "cassandra")
-            .WithRetryPolicy(new LoggingRetryPolicy(new DefaultRetryPolicy()));
-
-        builder.WithLoadBalancingPolicy(
-            new RetryLoadBalancingPolicy(
-                new RoundRobinPolicy(), new ConstantReconnectionPolicy(1000)));
-
-        using var dataContext = builder.Build().Connect("jira");*/
-
+#if DEBUG
+        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif
+        
         try
         {
             issues = dataContext.Select<Issue>(issue => issue.SprintId == sprintId);
