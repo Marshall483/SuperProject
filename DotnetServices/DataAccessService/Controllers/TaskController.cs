@@ -1,6 +1,9 @@
-﻿using Cassandra.NET;
+﻿using Cassandra;
+using Cassandra.NET;
+using Cassandra.NET.Helpers;
 using DataAccessService.Models;
 using DataAccessService.OperationResult;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -25,7 +28,7 @@ public class TaskController : ControllerBase
             return BadRequest("Invalid Guid was provided");
         }
         
-        var getSprintsResult = GetSprintsBySprintId(sprintId);
+        var getSprintsResult = GetTasksBySprintId(sprintId);
         
         return getSprintsResult.Success
             ? new JsonResult(getSprintsResult.Result)
@@ -33,17 +36,20 @@ public class TaskController : ControllerBase
     }
     
     [HttpPost(Name = "AddTask")]
-    public IActionResult AddTask(string issuesJson)
+    public IActionResult AddTask([FromBody] List<Issue> issues)
     {
-        if (string.IsNullOrEmpty(issuesJson))
-            return new BadRequestResult();
-        
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        var issues = JsonConvert.DeserializeObject<List<Issue>>(issuesJson);
-
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif
+        
         try
         {
-            dataContext.AddOrUpdate(issues);
+            foreach (var issue in issues)
+            {
+                dataContext.AddOrUpdate(issue);
+            }        
         }
         catch(Exception e)
         {
@@ -54,15 +60,19 @@ public class TaskController : ControllerBase
         return new OkResult();
     }
     
-    private OperationResult<IEnumerable<Issue>, Exception> GetSprintsBySprintId(Guid sprintId)
+    private OperationResult<IEnumerable<Issue>, Exception> GetTasksBySprintId(Guid sprintId)
     {
         IEnumerable<Issue> issues = new List<Issue>();
         
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif
         
         try
         {
-            issues = dataContext.Select<Issue>(p => p.SprintId == sprintId);
+            issues = dataContext.Select<Issue>(issue => issue.SprintId == sprintId);
         }
         catch (Exception ex)
         {

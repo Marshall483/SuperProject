@@ -19,7 +19,7 @@ public class JsonSender : IJsonSender
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json")); //ACCEPT header
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "relativeAddress");
+            var request = new HttpRequestMessage(HttpMethod.Post, address);
 
             request.Content = new StringContent(json,
                 Encoding.UTF8,

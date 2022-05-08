@@ -15,33 +15,31 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IProjectMocker, ProjectMocker>();
-builder.Services.AddSingleton<IIssueMocker, IssueMocker>();
-builder.Services.AddSingleton<ISprintMocker, SprintMocker>();
-
+builder.Services.AddSingleton<IProjectMoqer, ProjectMoqer>();
+builder.Services.AddSingleton<IIssueMoqer, IssueMoqer>();
+builder.Services.AddSingleton<ISprintMoqer, SprintMoqer>();
 builder.Services.AddTransient<IJsonSender, JsonSender>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder =>
-        { 
-            builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        options.AddDefaultPolicy(
+                builder =>
+                {
+                        builder.AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+#if DEBUG
+app.Urls.Add("http://localhost:5001");
+app.Urls.Add( "https://localhost:5002");
+#endif
 
-app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 

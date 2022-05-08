@@ -16,19 +16,19 @@ namespace DataAccessService.Models;
 public class Project
 {
     [CassandraProperty("project_id")]
-    [JsonProperty("project_id")]
+    [JsonProperty("ProjectId")]
     public Guid ProjectId { get; set; }
     
     [PartitionKey]
     [CassandraProperty("user_id")]
-    [JsonProperty("user_id")]
+    [JsonProperty("UserId")]
     public Guid UserId { get; set; }
     
     [CassandraProperty("project_name")]
-    [JsonProperty("project_name")]
+    [JsonProperty("ProjectName")]
     public string ProjectName { get; set; }
 
     [CassandraProperty("is_tracked")]
-    [JsonProperty("is_tracked")]
+    [JsonProperty("IsTracked")]
     public bool IsTracked { get; set; }
 }

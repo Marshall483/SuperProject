@@ -3,7 +3,7 @@ using JiraScrapper.Models;
 
 namespace JiraScrapper.MocksGenerator.Realizations;
 
-public class SprintMocker : ISprintMocker
+public class SprintMoqer : ISprintMoqer
 {
     public IEnumerable<Sprint> ForProject(Project project, int count)
     {

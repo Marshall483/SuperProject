@@ -29,22 +29,25 @@ public class SprintController : ControllerBase
         var getSprintsResult = GetSprintsByProjectId(projectId);
 
         return getSprintsResult.Success
-            ? new JsonResult(JsonConvert.SerializeObject(getSprintsResult.Result, Formatting.Indented))
+            ? new JsonResult(getSprintsResult.Result)
             : BadRequest(getSprintsResult.Error.Message);
     }
     
     [HttpPost(Name = "AddSprint")]
-    public IActionResult AddSprint(string sprintJson)
+    public IActionResult AddSprint([FromBody] List<Sprint> sprints)
     {
-        if (string.IsNullOrEmpty(sprintJson))
-            return new BadRequestResult();
-        
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        var sprint = JsonConvert.DeserializeObject<List<Sprint>>(sprintJson);
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif     
         
         try
         {
-            dataContext.AddOrUpdate(sprint);
+            foreach (var sptint in sprints)
+            {
+                dataContext.AddOrUpdate(sptint);
+            }
         }
         catch(Exception e)
         {
@@ -59,7 +62,11 @@ public class SprintController : ControllerBase
     {
         IEnumerable<Sprint> sprints = new List<Sprint>();
         
+#if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+#else
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+#endif      
         
         try
         {

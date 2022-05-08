@@ -4,12 +4,12 @@ namespace JiraScrapper.Models;
 
 public class Sprint
 {
-    [JsonProperty("project_id")]
+    [JsonProperty("ProjectId")]
     public Guid ProjectId { get; set; }
     
-    [JsonProperty("sprint_id")]
+    [JsonProperty("SprintId")]
     public Guid SprintId { get; set; }
 
-    [JsonProperty("sprint_name")]
+    [JsonProperty("SprintName")]
     public string SprintName { get; set; }
 }

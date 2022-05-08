@@ -5,15 +5,15 @@ namespace JiraScrapper.Models;
 
 public class Project
 {
-    [JsonProperty("project_id")]
+    [JsonProperty("ProjectId")]
     public Guid ProjectId { get; set; }
     
-    [JsonProperty("user_id")]
+    [JsonProperty("UserId")]
     public Guid UserId { get; set; }
     
-    [JsonProperty("project_name")]
+    [JsonProperty("ProjectName")]
     public string ProjectName { get; set; }
     
-    [JsonProperty("is_tracked")]
+    [JsonProperty("IsTracked")]
     public bool IsTracked { get; set; }
 }
