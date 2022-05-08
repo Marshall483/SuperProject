@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/api/generator")
 public class DocumentController {
 
-    private DocumentService documentService;
+    private final DocumentService documentService;
 
     @Autowired
     public DocumentController(DocumentService documentService) {

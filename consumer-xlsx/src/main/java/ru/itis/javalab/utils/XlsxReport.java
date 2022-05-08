@@ -1,6 +1,7 @@
 package ru.itis.javalab.utils;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -27,7 +28,6 @@ import java.util.List;
 @Service
 public class XlsxReport {
 
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateOptions.DATE_FORMAT, DateOptions.LOCAL_DATE);
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateOptions.DATE_FORMAT)
             .withLocale(DateOptions.LOCAL_DATE);
 
@@ -57,28 +57,72 @@ public class XlsxReport {
             row = sheet.createRow(rowNum);
 
             Cell cell = row.createCell(0);
-            cell.setCellValue("Id");
+            cell.setCellValue("project name");
             sheet.autoSizeColumn(0);
 
             cell = row.createCell(1);
-            cell.setCellValue("documentName");
+            cell.setCellValue("spring id");
             sheet.autoSizeColumn(1);
 
             cell = row.createCell(2);
-            cell.setCellValue("documentType");
+            cell.setCellValue("issue id");
             sheet.autoSizeColumn(2);
 
             cell = row.createCell(3);
-            cell.setCellValue("documentText");
+            cell.setCellValue("issue name");
             sheet.autoSizeColumn(3);
 
             cell = row.createCell(4);
-            cell.setCellValue("createdAt");
+            cell.setCellValue("status");
             sheet.autoSizeColumn(4);
+
+            cell = row.createCell(5);
+            cell.setCellValue("estimated time in hours");
+            sheet.autoSizeColumn(5);
+
+            cell = row.createCell(6);
+            cell.setCellValue("total spent time in hours");
+            sheet.autoSizeColumn(6);
 
             rowNum++;
 
-            row = sheet.createRow(rowNum);
+            for (WebClientModel model : data) {
+                row = sheet.createRow(rowNum);
+
+                cell = row.createCell(0);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(model.getProjectName());
+
+                cell = row.createCell(1);
+                cell.setCellType(CellType.STRING);
+                if (model.getSpringId() != null) {
+                    cell.setCellValue(model.getSpringId().toString());
+                }
+
+                cell = row.createCell(2);
+                cell.setCellType(CellType.STRING);
+                if (model.getIssueId() != null) {
+                    cell.setCellValue(model.getIssueId().toString());
+                }
+
+                cell = row.createCell(3);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(model.getIssueName());
+
+                cell = row.createCell(4);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(model.getStatus());
+
+                cell = row.createCell(5);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(model.getEstimatedDueTimeInHours());
+
+                cell = row.createCell(6);
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue(model.getTotalSpentTimeInHours());
+
+                rowNum++;
+            }
 
             ekp.write(outputStream);
             outputStream.close();
@@ -101,13 +145,5 @@ public class XlsxReport {
         } catch (IOException ex) {
             throw new XlsxGenerationException("Ошибка в генерации эксель файла", ex);
         }
-    }
-
-    private String getDateWithCorrectForm(LocalDate localDate) {
-        String date = " ";
-        if (localDate != null) {
-            date = String.format("%s", localDate.format(dateTimeFormatter));
-        }
-        return date;
     }
 }
