@@ -15,6 +15,7 @@ import ru.itis.javalab.repositories.UsersRepository;
 import ru.itis.javalab.services.UserService;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,6 +36,8 @@ public class UserServiceImpl implements UserService {
     public UserDto registerUser(UserForm userForm) {
         User user = User.builder().login(userForm.getLogin()).name(userForm.getName())
                 .password(passwordEncoder.encode(userForm.getPassword()))
+                .uuid(UUID.randomUUID())
+                .telegramAlias(userForm.getTelegramAlias())
                 .role(User.Role.USER).state(User.State.ACTIVE).build();
         usersRepository.save(user);
         return UserDto.from(user);
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService {
             redisUsersService.addTokenToUser(user, token);
             return TokenDto.builder()
                     .token(token)
+                    .uuid(user.getUuid())
                     .build();
         } else {
             throw new UsernameNotFoundException("Invalid username or password");

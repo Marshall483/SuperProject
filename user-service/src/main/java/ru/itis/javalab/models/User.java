@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -19,6 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private UUID uuid;
     private String login;
     private String password;
     private String name;
@@ -33,6 +35,9 @@ public class User {
     private String telegramAlias;
 
     private String redisId;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Project> projects;
 
     public enum State {
         ACTIVE, BANNED
