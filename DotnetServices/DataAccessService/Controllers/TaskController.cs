@@ -1,6 +1,9 @@
-﻿using Cassandra.NET;
+﻿using Cassandra;
+using Cassandra.NET;
+using Cassandra.NET.Helpers;
 using DataAccessService.Models;
 using DataAccessService.OperationResult;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -39,6 +42,7 @@ public class TaskController : ControllerBase
             return new BadRequestResult();
         
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+
         var issues = JsonConvert.DeserializeObject<List<Issue>>(issuesJson);
 
         try
@@ -56,13 +60,28 @@ public class TaskController : ControllerBase
     
     private OperationResult<IEnumerable<Issue>, Exception> GetSprintsBySprintId(Guid sprintId)
     {
-        IEnumerable<Issue> issues = new List<Issue>();
+        List<Issue> issues = new List<Issue>();
         
-        using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
-        
+       // using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
+
+        var builder = Cluster.Builder()
+            .AddContactPoints(new[] {"cassandra-node1"})
+            .WithPort(9042)
+            .WithCredentials("cassandra", "cassandra")
+            .WithRetryPolicy(new LoggingRetryPolicy(new DefaultRetryPolicy()));
+
+        builder.WithLoadBalancingPolicy(
+            new RetryLoadBalancingPolicy(
+                new RoundRobinPolicy(), new ConstantReconnectionPolicy(1000)));
+
+        using var dataContext = builder.Build().Connect("jira");
+
         try
         {
-            issues = dataContext.Select<Issue>(p => p.SprintId == sprintId);
+            var res = dataContext.Execute("SELECT * FROM task");
+            
+            foreach (Row row in res)
+                issues.Add(Mapper.Map<Issue>(row));
         }
         catch (Exception ex)
         {
