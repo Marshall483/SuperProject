@@ -5,19 +5,14 @@ namespace JiraScrapper.MocksGenerator.Realizations;
 
 public class ProjectMoqer : IProjectMoqer
 {
-    public List<Project> NewProjectForUserId(Guid UserId)
+    public IEnumerable<Project> NewProjectForUserId(Guid UserId, int count)
     {
-        var projects = new List<Project>();
-        
-        projects.Add(
-            new Project
-            {
-                UserId = UserId,
-                IsTracked = false,
-                ProjectId = Guid.NewGuid(),
-                ProjectName = $"Project {Random.Shared.Next()}"
-            });
-
-        return projects;
+        return Enumerable.Range(1, count).Select(project => new Project
+        {
+            UserId = UserId,
+            IsTracked = false,
+            ProjectId = Guid.NewGuid(),
+            ProjectName = $"Project {Random.Shared.Next()}"
+        });
     }
 }

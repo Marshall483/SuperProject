@@ -33,11 +33,11 @@ namespace JiraScrapper.Controllers
         {
             var userGuid = Guid.Parse(userGuidDto.UserGuid);
             
-            var project = _project.NewProjectForUserId(userGuid);
-            var sprints = _sprint.ForProject(project.First(), Random.Shared.Next(5,11));
-            var issues = _issue.ForSprints(sprints, Random.Shared.Next(10, 31), project.First().ProjectName);
+            var projects = _project.NewProjectForUserId(userGuid, Random.Shared.Next(1,6));
+            var sprints = _sprint.ForProject(projects, Random.Shared.Next(5,11));
+            var issues = _issue.ForSprints(sprints,projects.Select(p => p.ProjectName).ToList(), Random.Shared.Next(10, 31));
             
-            var jsonProject = JsonConvert.SerializeObject(project, Formatting.Indented);
+            var jsonProject = JsonConvert.SerializeObject(projects, Formatting.Indented);
             var jsonSprint = JsonConvert.SerializeObject(sprints, Formatting.Indented);
             var jsonIssue = JsonConvert.SerializeObject(issues, Formatting.Indented);
 
