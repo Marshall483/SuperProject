@@ -85,9 +85,9 @@ services:
       - Logging__Loglevel__Default=Debug 
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/DotnetServices/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: ./DotnetServices
       dockerfile: JiraScrapper/Dockerfile
@@ -106,9 +106,9 @@ services:
       - Logging__Loglevel__Default=Debug 
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/DotnetServices/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: ./DotnetServices
       dockerfile: Gateway/Dockerfile
@@ -118,7 +118,7 @@ services:
   dataaccessservice:
     image: ${DOCKER_REGISTRY-}dataaccessservice
     volumes:
-      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     ports:
       - "5003:443"
       - "8083:80"
@@ -129,7 +129,7 @@ services:
       - Logging__Loglevel__Default=Debug 
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/DotnetServices/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     restart: always
     build:
       context: ./DotnetServices
@@ -140,8 +140,6 @@ services:
   cassandra-node1:
     image: cassandra:latest
     container_name: cassandra-node1
-    volumes:
-      - ./DotnetServices/init-scripts:/docker-entrypoint-initdb.d
     environment:
       - CASSANDRA_CLUSTER_NAME=cassandra-cluster
       - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
