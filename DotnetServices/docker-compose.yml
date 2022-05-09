@@ -123,7 +123,7 @@ services:
         - "9045:9045"
       networks:
        - backend
-      command: /bin/bash -c "echo service started && sleep 600 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
+      command: /bin/bash -c "echo service started && sleep 300 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
 
 networks:
   backend:
