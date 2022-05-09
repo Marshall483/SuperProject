@@ -89,7 +89,7 @@ services:
     volumes:
       - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
-      context: .
+      context: ./DotnetServices
       dockerfile: DotnetServices/JiraScrapper/Dockerfile
     networks:
       - backend
@@ -110,7 +110,7 @@ services:
     volumes:
       - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
-      context: .
+      context: ./DotnetServices
       dockerfile: DotnetServices/Gateway/Dockerfile
     networks:
       - backend
@@ -132,7 +132,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/DotnetServices/https/aspnetapp.pfx
     restart: always
     build:
-      context: .
+      context: ./DotnetServices
       dockerfile: DotnetServices/DataAccessService/Dockerfile
     networks:
       - backend
