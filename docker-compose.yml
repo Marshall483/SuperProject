@@ -85,7 +85,7 @@ services:
       - Logging__Loglevel__Default=Debug 
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=./DotnetServices/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/opt/SuperProject/DotnetServices/https/aspnetapp.pfx
     volumes:
       - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
