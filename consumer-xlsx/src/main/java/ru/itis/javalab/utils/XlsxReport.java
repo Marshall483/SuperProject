@@ -47,82 +47,83 @@ public class XlsxReport {
         ByteArrayOutputStream outputStream;
 
         try {
-            XSSFWorkbook ekp = new XSSFWorkbook();
-            outputStream = new ByteArrayOutputStream();
+                XSSFWorkbook ekp = new XSSFWorkbook();
 
-            Sheet sheet = ekp.createSheet("Report");
+                outputStream = new ByteArrayOutputStream();
 
-            int rowNum = 0;
-            Row row;
-            row = sheet.createRow(rowNum);
+                Sheet sheet = ekp.createSheet("Report");
 
-            Cell cell = row.createCell(0);
-            cell.setCellValue("project name");
-            sheet.autoSizeColumn(0);
-
-            cell = row.createCell(1);
-            cell.setCellValue("spring id");
-            sheet.autoSizeColumn(1);
-
-            cell = row.createCell(2);
-            cell.setCellValue("issue id");
-            sheet.autoSizeColumn(2);
-
-            cell = row.createCell(3);
-            cell.setCellValue("issue name");
-            sheet.autoSizeColumn(3);
-
-            cell = row.createCell(4);
-            cell.setCellValue("status");
-            sheet.autoSizeColumn(4);
-
-            cell = row.createCell(5);
-            cell.setCellValue("estimated time in hours");
-            sheet.autoSizeColumn(5);
-
-            cell = row.createCell(6);
-            cell.setCellValue("total spent time in hours");
-            sheet.autoSizeColumn(6);
-
-            rowNum++;
-
-            for (WebClientModel model : data) {
+                int rowNum = 0;
+                Row row;
                 row = sheet.createRow(rowNum);
 
-                cell = row.createCell(0);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(model.getProjectName());
+                Cell cell = row.createCell(0);
+                cell.setCellValue("project name");
+                sheet.autoSizeColumn(0);
 
                 cell = row.createCell(1);
-                cell.setCellType(CellType.STRING);
-                if (model.getSpringId() != null) {
-                    cell.setCellValue(model.getSpringId().toString());
-                }
+                cell.setCellValue("spring id");
+                sheet.autoSizeColumn(1);
 
                 cell = row.createCell(2);
-                cell.setCellType(CellType.STRING);
-                if (model.getIssueId() != null) {
-                    cell.setCellValue(model.getIssueId().toString());
-                }
+                cell.setCellValue("issue id");
+                sheet.autoSizeColumn(2);
 
                 cell = row.createCell(3);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(model.getIssueName());
+                cell.setCellValue("issue name");
+                sheet.autoSizeColumn(3);
 
                 cell = row.createCell(4);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(model.getStatus());
+                cell.setCellValue("status");
+                sheet.autoSizeColumn(4);
 
                 cell = row.createCell(5);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(model.getEstimatedDueTimeInHours());
+                cell.setCellValue("estimated time in hours");
+                sheet.autoSizeColumn(5);
 
                 cell = row.createCell(6);
-                cell.setCellType(CellType.STRING);
-                cell.setCellValue(model.getTotalSpentTimeInHours());
+                cell.setCellValue("total spent time in hours");
+                sheet.autoSizeColumn(6);
 
                 rowNum++;
-            }
+
+                for (WebClientModel model : data) {
+                    row = sheet.createRow(rowNum);
+
+                    cell = row.createCell(0);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(model.getProjectName());
+
+                    cell = row.createCell(1);
+                    cell.setCellType(CellType.STRING);
+                    if (model.getSpringId() != null) {
+                        cell.setCellValue(model.getSpringId().toString());
+                    }
+
+                    cell = row.createCell(2);
+                    cell.setCellType(CellType.STRING);
+                    if (model.getIssueId() != null) {
+                        cell.setCellValue(model.getIssueId().toString());
+                    }
+
+                    cell = row.createCell(3);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(model.getIssueName());
+
+                    cell = row.createCell(4);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(model.getStatus());
+
+                    cell = row.createCell(5);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(model.getEstimatedDueTimeInHours());
+
+                    cell = row.createCell(6);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue(model.getTotalSpentTimeInHours());
+
+                    rowNum++;
+                }
 
             ekp.write(outputStream);
             outputStream.close();
