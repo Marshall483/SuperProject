@@ -90,7 +90,7 @@ services:
       - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: ./DotnetServices
-      dockerfile: DotnetServices/JiraScrapper/Dockerfile
+      dockerfile: JiraScrapper/Dockerfile
     networks:
       - backend
 
@@ -111,7 +111,7 @@ services:
       - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: ./DotnetServices
-      dockerfile: DotnetServices/Gateway/Dockerfile
+      dockerfile: Gateway/Dockerfile
     networks:
       - backend
 
@@ -133,7 +133,7 @@ services:
     restart: always
     build:
       context: ./DotnetServices
-      dockerfile: DotnetServices/DataAccessService/Dockerfile
+      dockerfile: DataAccessService/Dockerfile
     networks:
       - backend
 
