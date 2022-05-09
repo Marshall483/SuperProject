@@ -5,21 +5,19 @@ namespace JiraScrapper.MocksGenerator.Realizations;
 
 public class SprintMoqer : ISprintMoqer
 {
-    public IEnumerable<Sprint> ForProject(Project project, int count)
+    public IEnumerable<Sprint> ForProject(IEnumerable<Project> projects, int count)
     {
-        if (project.ProjectId == Guid.Empty || count == 0)
-            throw new ArgumentException("(project.ProjectId == Guid.Empty || count == 0) was true");
-
         var sprints = new List<Sprint>();
-        
-        for (int i = 0; i < count; i++)
+
+        foreach (var project in projects)
         {
-            sprints.Add(new Sprint
-            {
-                ProjectId = project.ProjectId,
-                SprintId = Guid.NewGuid(),
-                SprintName = $"Sprint {Random.Shared.Next()}"
-            });
+            for(int i = 0; i < count; i++)
+                sprints.Add(new Sprint
+                    {
+                        ProjectId = project.ProjectId,
+                        SprintId = Guid.NewGuid(),
+                        SprintName = $"Sprint {Random.Shared.Next()}"
+                    });
         }
 
         return sprints;
