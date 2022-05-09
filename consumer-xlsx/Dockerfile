@@ -35,4 +35,14 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
+RUN apt-get update \
+ && apt-get install --assume-yes apt-utils \
+ && apt-get install --assume-yes software-properties-common \
+ && apt-get install --assume-yes dbus \
+ && apt-get install --assume-yes glib-networking \
+ && apt-get install --assume-yes libnih-dbus-dev \
+ && apt-get install --assume-yes dconf-cli \
+ && apt-get install --assume-yes fontconfig
+
+
 ENTRYPOINT ["java","-cp","app:app/lib/*","ru.itis.javalab.ConsumerXlsxApplication"]
