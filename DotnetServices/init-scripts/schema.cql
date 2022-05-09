@@ -1,10 +1,10 @@
-CREATE KEYSPACE jira
+CREATE KEYSPACE IF NOT EXISTS jira
     WITH REPLICATION = {
         'class' : 'NetworkTopologyStrategy',
         'datacenter1' : 3
         };
 
-CREATE TABLE jira.project(
+CREATE TABLE IF NOT EXISTS jira.project(
     project_id uuid,
     user_id uuid,
     project_name text,
@@ -12,14 +12,14 @@ CREATE TABLE jira.project(
     PRIMARY KEY ( (user_id), project_id )
 );
 
-CREATE TABLE jira.sprint(
+CREATE TABLE IF NOT EXISTS jira.sprint(
     sprint_id uuid,
     project_id uuid,
     sprint_name text,
     PRIMARY KEY ( (project_id), sprint_id )
 );
 
-CREATE TABLE jira.task(
+CREATE TABLE IF NOT EXISTS jira.task(
     task_id uuid,
     sprint_id uuid,
     project_name text,

@@ -58,6 +58,7 @@ services:
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
       - ASPNETCORE_Kestrel__Certificates__Default__Password=123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    restart: always
     build:
       context: .
       dockerfile: DataAccessService/Dockerfile
@@ -66,6 +67,7 @@ services:
 
   cassandra-node1:
     image: cassandra:latest
+    container_name: cassandra-node1
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
     environment:
@@ -74,6 +76,7 @@ services:
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_PASSWORD=password123
       - CASSANDRA_DATACENTER=datacenter1
+    restart: always
     ports:
       - "9042:9042"
     networks:
@@ -81,6 +84,7 @@ services:
  
   cassandra-node2:
     image: cassandra:latest
+    container_name: cassandra-node2
     environment:
       - CASSANDRA_CLUSTER_NAME=cassandra-cluster
       - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
@@ -93,30 +97,32 @@ services:
  
   cassandra-node3:
     image: cassandra:latest
+    container_name: cassandra-node3
     environment:
       - CASSANDRA_CLUSTER_NAME=cassandra-cluster
       - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
       - CASSANDRA_PASSWORD=password123
       - CASSANDRA_DATACENTER=datacenter1 
+    restart: always
     ports:
       - "9044:9044"
     networks:
       - backend
 
- # cassandra-load-keyspace:
- #     container_name: cassandra-loader
- #     image: cassandra:latest
- #     depends_on:
- #       - cassandra-node1
- #       - cassandra-node2
- #       - cassandra-node3
- #     volumes:
- #       - ./init-scripts/init.cql:/init.cql
- #     ports:
- #       - "9045:9045"
- #     networks:
- #       - backend
- #     command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /init.cql"
+  cassandra-load-keyspace:
+      container_name: cassandra-load-keyspace
+      image: cassandra:latest
+      depends_on:
+        - cassandra-node1
+        - cassandra-node2
+        - cassandra-node3
+      volumes:
+        - ./init-scripts/schema.cql:/schema.cql
+      ports:
+        - "9045:9045"
+      networks:
+       - backend
+      command: /bin/bash -c "echo service started && sleep 600 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
 
 networks:
   backend:
