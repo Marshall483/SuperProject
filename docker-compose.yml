@@ -84,10 +84,10 @@ services:
       - ASPNETCORE_HTTPS_PORT=5001
       - Logging__Loglevel__Default=Debug 
       - Logging__Loglevel__Microsoft.AspNetCore=Debug 
-      #- ASPNETCORE_Kestrel__Certificates__Default__Password=123
-      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/DotnetServices/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - ./https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
     build:
       context: ./DotnetServices
       dockerfile: JiraScrapper/Dockerfile
