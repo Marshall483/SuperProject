@@ -39,7 +39,7 @@ public class SprintController : ControllerBase
 #if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
 #else
-        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1" /*, "cassandra-node2", "cassandra-node3" */  }, "jira");
 #endif     
         
         try
@@ -65,7 +65,7 @@ public class SprintController : ControllerBase
 #if DEBUG
         using var dataContext = new CassandraDataContext(new[] { "127.0.0.1" }, "jira");
 #else
-        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1", "cassandra-node2", "cassandra-node3"  }, "jira");
+        using var dataContext = new CassandraDataContext(new[] { "cassandra-node1" /*, "cassandra-node2", "cassandra-node3" */  }, "jira");
 #endif      
         
         try
