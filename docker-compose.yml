@@ -56,28 +56,12 @@ services:
     depends_on:
       #      - producer
       - rabbitmq
+    ports:
+      - "8081:8081"
     env_file:
       - backend.env
     networks:
       - backend
-
-  cassandra:
-    image: cassandra:4.0.3
-    restart: always
-    networks:
-      - backend
-    ports:
-      - "7000:7000"
-      - "9042:9042"
-    volumes:
-      - cassandra-data:/var/lib/cassandra
-    env_file:
-      backend.env
-    healthcheck:
-      test: [ "CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces" ]
-      interval: 15s
-      timeout: 10s
-      retries: 10
 
   pahlava:
     restart: always
@@ -88,6 +72,128 @@ services:
       - "3000:3000"
     networks:
       - frontend
+
+  jirascrapper:
+    image: ${DOCKER_REGISTRY-}jirascrapper
+    ports:
+      - "5001:443"
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5001
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    build:
+      context: ./DotnetServices
+      dockerfile: JiraScrapper/Dockerfile
+    networks:
+      - backend
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    ports:
+      - "5002:443"
+      - "8082:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5002
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    build:
+      context: ./DotnetServices
+      dockerfile: Gateway/Dockerfile
+    networks:
+      - backend
+
+  dataaccessservice:
+    image: ${DOCKER_REGISTRY-}dataaccessservice
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    ports:
+      - "5003:443"
+      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5003
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    restart: always
+    build:
+      context: ./DotnetServices
+      dockerfile: DataAccessService/Dockerfile
+    networks:
+      - backend
+
+  cassandra-node1:
+    image: cassandra:latest
+    container_name: cassandra-node1
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1
+    restart: always
+    ports:
+      - "9042:9042"
+    networks:
+      - backend
+ 
+  cassandra-node2:
+    image: cassandra:latest
+    container_name: cassandra-node2
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1
+    restart: always
+    ports:
+      - "9043:9043"
+    networks:
+      - backend
+ 
+  cassandra-node3:
+    image: cassandra:latest
+    container_name: cassandra-node3
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_DATACENTER=datacenter1 
+    restart: always
+    ports:
+      - "9044:9044"
+    networks:
+      - backend
+
+  cassandra-load-keyspace:
+      container_name: cassandra-load-keyspace
+      image: cassandra:latest
+      depends_on:
+        - cassandra-node1
+        - cassandra-node2
+        - cassandra-node3
+      volumes:
+        - ./DotnetServices/init-scripts/schema.cql:/schema.cql
+      ports:
+        - "9045:9045"
+      networks:
+       - backend
+      command: /bin/bash -c "echo service started && sleep 300 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
 
 volumes:
   db-data:

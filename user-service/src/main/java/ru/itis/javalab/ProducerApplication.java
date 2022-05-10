@@ -1,6 +1,8 @@
 package ru.itis.javalab;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+@OpenAPIDefinition(info = @Info(title = "User Service",
+        description = "Registration and Authorization service",
+        version = "final"))
 public class ProducerApplication {
 
     @Value("${jwt.secret}")

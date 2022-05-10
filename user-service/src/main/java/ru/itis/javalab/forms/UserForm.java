@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserForm {
-
     private String login;
     private String password;
     private String name;
+    private String telegramAlias;
 }

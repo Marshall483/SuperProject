@@ -1,6 +1,8 @@
 package ru.itis.javalab.models;
 
 import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 
@@ -9,10 +11,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Builder
+@Table
+@Entity
 public class Document {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String documentName;
     private String documentType;
-    private String documentText;
+    private byte[] documentContent;
+    private Boolean isReady;
     private LocalDate createdAt;
 }

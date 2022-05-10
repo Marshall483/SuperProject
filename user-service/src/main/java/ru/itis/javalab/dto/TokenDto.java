@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 
 @Data
 @AllArgsConstructor
@@ -12,4 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TokenDto {
     private String token;
+    private UUID uuid;
 }
