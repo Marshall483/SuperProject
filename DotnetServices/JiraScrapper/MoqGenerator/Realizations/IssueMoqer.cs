@@ -5,7 +5,7 @@ namespace JiraScrapper.MocksGenerator.Realizations;
 
 public class IssueMoqer : IIssueMoqer
 {
-    public IEnumerable<Issue> ForSprints(IEnumerable<Sprint> sprints, IEnumerable<string> projectNames, int countPerSprint)
+    public List<Issue> ForSprints(List<Sprint> sprints, List<string> projectNames, int countPerSprint)
     {
         if (sprints.ToArray().Length == 0 || countPerSprint == 0)
             throw new ArgumentException("(sprints.ToArray().Length == 0 || countPerSprint == 0) was true");
