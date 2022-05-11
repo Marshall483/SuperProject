@@ -138,6 +138,8 @@ public class XlsxReport {
 
             documentRepository.save(document);
 
+            document.setCreatedAt(null);
+
             if (isTelegram) {
                 rabbitTemplate.convertAndSend(RabbitOption.EXCHANGE, RoutingKeys.XLSX_ROUTING_KEY.toString(), document);
             }
