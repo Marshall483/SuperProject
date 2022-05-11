@@ -1,4 +1,4 @@
-import { DashboardLayout } from "../../components/dashboard-layout";
+import { DashboardLayout } from "../../components/layouts/DashboardLayout";
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { getAuthToken } from "../../api/cookieStorage";
@@ -94,17 +94,17 @@ const Me = () => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const token = getAuthToken(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/`,
-      },
-    };
-  }
-  return { props: {} };
-};
+// export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+//   const token = getAuthToken(ctx);
+//   if (!token) {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: `/`,
+//       },
+//     };
+//   }
+//   return { props: {} };
+// };
 
 export default Me;

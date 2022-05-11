@@ -94,7 +94,7 @@ const Home = () => {
                 {isLoginPage ? "Вход в систему" : "Регистрация"}
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Требуется {isLoginPage ? "авторизация" : "Регистрация"} для
+                Требуется {isLoginPage ? "авторизация" : "регистрация"} для
                 использования платформы
               </Typography>
             </Box>
