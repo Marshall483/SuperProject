@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { userLoginRoute, userRegisterRoute } from "../api/routes";
+import { newUserRegisterRoute, userLoginRoute, userRegisterRoute } from "../api/routes";
 import { setAuthToken } from "../api/cookieStorage";
 import {
   loginFormSchema,
@@ -37,8 +37,9 @@ const Home = () => {
       try {
         if (isLoginPage) {
           const res = await axios.post(userLoginRoute, user);
+          const res2 = await axios.post(newUserRegisterRoute, { userGuid: res.data.uuid })
           setIsLoading(false);
-          if (res.status === 200) {
+          if (res.status === 200 && res2.status === 200) {
             const token = res?.data;
             if (token) {
               setAuthToken(JSON.stringify(token));
