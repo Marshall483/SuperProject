@@ -41,17 +41,17 @@ const MyProjects = () => {
   );
 };
 
-// export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-//   const token = getAuthToken(ctx);
-//   if (!token) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: `/`,
-//       },
-//     };
-//   }
-//   return { props: {} };
-// };
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+  const token = getAuthToken(ctx);
+  if (!token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/`,
+      },
+    };
+  }
+  return { props: {} };
+};
 
 export default MyProjects;
