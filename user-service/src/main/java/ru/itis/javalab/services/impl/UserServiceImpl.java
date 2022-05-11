@@ -59,6 +59,9 @@ public class UserServiceImpl implements UserService {
             return TokenDto.builder()
                     .token(token)
                     .uuid(user.getUuid())
+                    .login(user.getLogin())
+                    .telegramAlias(user.getTelegramAlias())
+                    .name(user.getName())
                     .build();
         } else {
             throw new UsernameNotFoundException("Invalid username or password");
