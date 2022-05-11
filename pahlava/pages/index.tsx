@@ -1,3 +1,9 @@
+import Head from "next/head";
+import { useFormik } from "formik";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -7,15 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Head from "next/head";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { userLoginRoute, userRegisterRoute } from "../api/routes";
+import { newUserRegisterRoute, userLoginRoute, userRegisterRoute } from "../api/routes";
 import { setAuthToken } from "../api/cookieStorage";
+import {
+  loginFormSchema,
+  registerFormSchema,
+} from "../utils/validationSchemas";
 
 const Home = () => {
   const router = useRouter();
@@ -26,31 +29,20 @@ const Home = () => {
       login: "",
       name: "",
       password: "",
+      telegramAlias: "",
     },
-    validationSchema: Yup.object({
-      login: Yup.string()
-        .email("Введите валидный email")
-        .max(255)
-        .required("Email обязателен"),
-      name: Yup.string()
-        .min(2, "Имя должно иметь >2 символов")
-        .max(15, "Имя должно иметь <15 символов")
-        .required(),
-      password: Yup.string()
-        .min(2, "Пароль должен иметь <15 символов")
-        .max(15, "Пароль должен иметь <15 символов")
-        .required("Пароль обязателен"),
-    }),
+    validationSchema: isLoginPage ? loginFormSchema : registerFormSchema,
     onSubmit: async (user, { resetForm }) => {
       setIsLoading(true);
       try {
         if (isLoginPage) {
           const res = await axios.post(userLoginRoute, user);
+          const res2 = await axios.post(newUserRegisterRoute, { userGuid: res.data.uuid })
           setIsLoading(false);
-          if (res.status === 200) {
-            const token = res?.data?.token;
+          if (res.status === 200 && res2.status === 200) {
+            const token = res?.data;
             if (token) {
-              setAuthToken(token);
+              setAuthToken(JSON.stringify(token));
               router.push("/dashboard");
             }
           }
@@ -98,24 +90,26 @@ const Home = () => {
                 использования платформы
               </Typography>
             </Box>
-            <TextField
-              error={Boolean(formik.touched.name && formik.errors.name)}
-              fullWidth
-              helperText={formik.touched.name && formik.errors.name}
-              label="имя"
-              margin="normal"
-              name="name"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="text"
-              value={formik.values.name}
-              variant="outlined"
-            />
+            {!isLoginPage && (
+              <TextField
+                error={Boolean(formik.touched.name && formik.errors.name)}
+                fullWidth
+                helperText={formik.touched.name && formik.errors.name}
+                label="Имя"
+                margin="normal"
+                name="name"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="text"
+                value={formik.values.name}
+                variant="outlined"
+              />
+            )}
             <TextField
               error={Boolean(formik.touched.login && formik.errors.login)}
               fullWidth
               helperText={formik.touched.login && formik.errors.login}
-              label="почта"
+              label="Почта"
               margin="normal"
               name="login"
               onBlur={formik.handleBlur}
@@ -124,11 +118,30 @@ const Home = () => {
               value={formik.values.login}
               variant="outlined"
             />
+            {!isLoginPage && (
+              <TextField
+                error={Boolean(
+                  formik.touched.telegramAlias && formik.errors.telegramAlias
+                )}
+                fullWidth
+                helperText={
+                  formik.touched.telegramAlias && formik.errors.telegramAlias
+                }
+                label="Имя в Telegram"
+                margin="normal"
+                name="telegramAlias"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="text"
+                value={formik.values.telegramAlias}
+                variant="outlined"
+              />
+            )}
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
-              label="пароль"
+              label="Пароль"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
