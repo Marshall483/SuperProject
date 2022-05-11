@@ -7,7 +7,6 @@ import ru.itis.javalab.constants.WebClientConstants;
 import ru.itis.javalab.models.WebClientModel;
 import ru.itis.javalab.services.WebClientService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
