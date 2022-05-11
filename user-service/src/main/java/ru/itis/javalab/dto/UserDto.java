@@ -26,6 +26,7 @@ public class UserDto {
                 .login(user.getLogin())
                 .name(user.getName())
                 .uuid(user.getUuid())
+                .telegramAlias(user.getTelegramAlias())
                 .build();
     }
 
