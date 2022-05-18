@@ -73,6 +73,7 @@ services:
     environment:
       - NEXT_PUBLIC_USER_ROOT=http://localhost:8085/api
       - NEXT_PUBLIC_DATA_ROOT=http://localhost:8083/api
+      - NEXT_PUBLIC_XLSX_ROOT=http://localhost:8081/api
     networks:
       - backend
 

@@ -5,7 +5,13 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import axios, { AxiosError } from "axios";
+import { time } from "console";
+import fileDownload from "js-file-download";
 import { useRouter } from "next/router";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { getXLSXRoute, postXLSXRoute } from "../api/routes";
 
 const styles = {
   description: {
@@ -42,6 +48,26 @@ type Props = {
 
 const ProjectSprints = ({ sprints, isLoading }: Props) => {
   const router = useRouter();
+
+  const fetchXLSX = (sprintId: string) => {
+    let timer: NodeJS.Timer;
+    axios
+      .post(postXLSXRoute, { id: sprintId, telegramAlias: "string" })
+      .then((res) => {
+        timer = setInterval(() => {
+          axios
+            .get(getXLSXRoute(res.data), { responseType: "blob" })
+            .then((res) => {
+              fileDownload(res.data, "doc.xlsx");
+              clearInterval(timer);
+            })
+            .catch((err) => {
+              toast.loading(err.response.message || "идет загрузка");
+            });
+        }, 2000);
+      });
+  };
+
   return (
     <Paper sx={styles.description}>
       <Typography sx={{ mb: 2 }} variant="h5">
@@ -65,7 +91,12 @@ const ProjectSprints = ({ sprints, isLoading }: Props) => {
             </Typography>
             <Box sx={styles.sprintButtonsBlock}>
               <Button variant="contained">
-                <Typography variant="body2">Выгрузить в Telegram</Typography>
+                <Typography
+                  variant="body2"
+                  onClick={() => fetchXLSX(s.sprintId)}
+                >
+                  Выгрузить в XLSX
+                </Typography>
               </Button>
               <Button
                 variant="contained"
