@@ -207,6 +207,6 @@ const Me = () => {
   );
 };
 
-export const getServerSideProps = getServerSidePropsWithUserUUID
+export const getServerSideProps = getServerSidePropsWithUserUUID;
 
 export default Me;

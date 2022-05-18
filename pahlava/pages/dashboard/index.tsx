@@ -1,13 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { DashboardLayout } from "../../components/layouts/DashboardLayout";
 import ProjectList, { Project } from "../../components/ProjectList";
@@ -17,10 +10,7 @@ import {
   getAllActiveProjectsByUserIdRoute,
   getAllSprintsByProjectIdRoute,
 } from "../../api/routes";
-import {
-  getJiraToken,
-  getMyProjects,
-} from "../../api/cookieStorage";
+import { getJiraToken, getMyProjects } from "../../api/cookieStorage";
 import { getServerSidePropsWithUserUUID } from "../../utils/getServerSideProps";
 
 const Dashboard = ({ uuid }: { uuid: string }) => {
@@ -53,7 +43,7 @@ const Dashboard = ({ uuid }: { uuid: string }) => {
       .catch(() =>
         toast.error("произошла ошибка при получении списка проектов")
       );
-  }, []);
+  }, [uuid]);
 
   const onProjectClick = (projectId: string) => {
     setIsSprintsLoading(true);

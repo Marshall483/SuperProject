@@ -1,6 +1,6 @@
 import { removeAuthToken } from "../api/cookieStorage";
 
-const Logout = () => <></>
+const Logout = () => <></>;
 
 export const getServerSideProps = () => {
   removeAuthToken();
@@ -12,4 +12,4 @@ export const getServerSideProps = () => {
   };
 };
 
-export default Logout
+export default Logout;

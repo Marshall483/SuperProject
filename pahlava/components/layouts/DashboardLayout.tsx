@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react";
+import Head from "next/head";
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Navbar } from "../Navbar";
 import { Sidebar } from "../Sidebar";
-import Head from "next/head";
 
 const LayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -43,10 +43,7 @@ export const DashboardLayout = (props: Props) => {
         </Container>
       </LayoutRoot>
       <Navbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <Sidebar
-        onClose={() => setSidebarOpen(false)}
-        open={isSidebarOpen}
-      />
+      <Sidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />
     </>
   );
 };

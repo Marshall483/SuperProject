@@ -14,10 +14,7 @@ import {
 import { DashboardLayout } from "../../components/layouts/DashboardLayout";
 import EmptyWarn from "../../components/EmptyWarn";
 import { Project } from "../../components/ProjectList";
-import {
-  getMyProjects,
-  setMyProjects,
-} from "../../api/cookieStorage";
+import { getMyProjects, setMyProjects } from "../../api/cookieStorage";
 import {
   getAllProjectsByUserIdRoute,
   postAllProjectsRoute,
@@ -71,7 +68,7 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [uuid]);
 
   const saveProjects = () => {
     if (projects) {
@@ -147,6 +144,6 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
   );
 };
 
-export const getServerSideProps = getServerSidePropsWithUserUUID
+export const getServerSideProps = getServerSidePropsWithUserUUID;
 
 export default MyProjects;

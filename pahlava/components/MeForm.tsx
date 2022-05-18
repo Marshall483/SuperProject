@@ -24,7 +24,7 @@ const MeForm = ({ setIsLoading, isLoading }: Props) => {
       );
       setIsLoading(false);
       toast.success("Данные успешно обновлены");
-      resetForm()
+      resetForm();
     },
   });
   return (

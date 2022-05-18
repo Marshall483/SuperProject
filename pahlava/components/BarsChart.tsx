@@ -78,5 +78,5 @@ export const BarsChart = ({
   est: number[];
   total: number[];
 }) => {
-  return <Bar  options={options} data={data(est, total)} />;
+  return <Bar options={options} data={data(est, total)} />;
 };

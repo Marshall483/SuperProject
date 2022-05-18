@@ -27,7 +27,7 @@ const SprintStats = () => {
   const [isStatsLoading, setIsStatsLoading] = useState();
 
   useEffect(() => {
-      console.log(sprintId)
+    console.log(sprintId);
     if (!sprintId || Array.isArray(sprintId)) {
       return;
     }
@@ -35,7 +35,7 @@ const SprintStats = () => {
       .get(getReportBySprintIdRoute(sprintId))
       .then((res) => setStats(res.data))
       .catch(() => toast.error("Произошла ошибка при выгрузки статистики"));
-  }, []);
+  }, [sprintId]);
 
   return (
     <DashboardLayout title="Stats | Pahlava">

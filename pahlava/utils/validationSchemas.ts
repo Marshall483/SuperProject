@@ -23,10 +23,10 @@ export const registerFormSchema = loginFormSchema.shape({
 });
 
 export const meJiraSchema = Yup.object({
-    token: Yup.string()
-      .min(2, "Токен должен иметь >2 символов")
-      .required("Поле является обязательным"),
-    url: Yup.string()
-      .min(2, "URL должey иметь >2 символов")
-      .required("Поле является обязательным")
-})
+  token: Yup.string()
+    .min(2, "Токен должен иметь >2 символов")
+    .required("Поле является обязательным"),
+  url: Yup.string()
+    .min(2, "URL должey иметь >2 символов")
+    .required("Поле является обязательным"),
+});
