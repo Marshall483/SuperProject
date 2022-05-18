@@ -1,0 +1,8 @@
+GET http://localhost:8081/api/generator/export
+Content-Type: application/json
+
+{
+  "id": "b1540048-ba80-45b0-832f-3c80004601a6",
+  "telegramAlias": null
+}
+
