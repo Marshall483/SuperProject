@@ -15,12 +15,19 @@ const setJiraTokens = (token: string, url: string) => {
   setCookies(Tokens.JIRA, JSON.stringify({ token, url }));
 };
 
-const setMyProjects = (projectStr : string) => {
-    setCookies(Tokens.MYPROJECTS, projectStr);
+const setMyProjects = (projectStr: string) => {
+  setCookies(Tokens.MYPROJECTS, projectStr);
 };
 
-const removeAuthToken = () => removeCookies(Tokens.AUTH);
-const removeJiraToken = () => removeCookies(Tokens.JIRA);
+const removeAuthToken = (ctx?: GetServerSidePropsContext) =>
+  removeCookies(Tokens.AUTH, ctx);
+const removeJiraToken = (ctx?: GetServerSidePropsContext) =>
+  removeCookies(Tokens.JIRA, ctx);
+const removeMyProjects = (ctx?: GetServerSidePropsContext) =>
+  removeCookies(Tokens.MYPROJECTS, ctx);
+const cleanStorage = (ctx?: GetServerSidePropsContext) => {
+  removeAuthToken(ctx), removeJiraToken(ctx), removeMyProjects(ctx);
+};
 
 const getAuthToken = (ctx?: GetServerSidePropsContext): string => {
   return getToken(Tokens.AUTH, ctx);
@@ -31,7 +38,7 @@ const getJiraToken = (ctx?: GetServerSidePropsContext): string => {
 };
 
 const getMyProjects = (ctx?: GetServerSidePropsContext): string => {
-    return getToken(Tokens.MYPROJECTS, ctx);
+  return getToken(Tokens.MYPROJECTS, ctx);
 };
 
 const getToken = (tokenName: Tokens, ctx?: GetServerSidePropsContext) => {
@@ -52,5 +59,7 @@ export {
   removeJiraToken,
   getJiraToken,
   getMyProjects,
-  setMyProjects
+  setMyProjects,
+  removeMyProjects,
+  cleanStorage,
 };
