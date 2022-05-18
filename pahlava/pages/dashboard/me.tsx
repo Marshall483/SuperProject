@@ -7,12 +7,12 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
 import { getAuthToken, getJiraToken } from "../../api/cookieStorage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MeForm from "../../components/MeForm";
+import { getServerSidePropsWithUserUUID } from "../../utils/getServerSideProps";
 
 type JiraObj = {
   url?: string;
@@ -207,17 +207,6 @@ const Me = () => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const token = getAuthToken(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/`,
-      },
-    };
-  }
-  return { props: {} };
-};
+export const getServerSideProps = getServerSidePropsWithUserUUID
 
 export default Me;

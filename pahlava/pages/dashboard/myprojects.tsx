@@ -1,4 +1,7 @@
-import { DashboardLayout } from "../../components/layouts/DashboardLayout";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { Box } from "@mui/system";
 import {
   Button,
   Checkbox,
@@ -8,28 +11,18 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
+import { DashboardLayout } from "../../components/layouts/DashboardLayout";
+import EmptyWarn from "../../components/EmptyWarn";
+import { Project } from "../../components/ProjectList";
 import {
-  getAuthToken,
   getMyProjects,
   setMyProjects,
 } from "../../api/cookieStorage";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import {
-  GetAllProjectsByUserIdRoute,
+  getAllProjectsByUserIdRoute,
   postAllProjectsRoute,
 } from "../../api/routes";
-import { Box } from "@mui/system";
-import toast from "react-hot-toast";
-import EmptyWarn from "../../components/EmptyWarn";
-
-type Project = {
-  projectId: string;
-  userId: string;
-  projectName: string;
-  isTracked: boolean;
-};
+import { getServerSidePropsWithUserUUID } from "../../utils/getServerSideProps";
 
 const styles = {
   emptyProjects: {
@@ -69,7 +62,7 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
     }
     setIsLoading(true);
     axios
-      .get(GetAllProjectsByUserIdRoute(uuid))
+      .get(getAllProjectsByUserIdRoute(uuid))
       .then((res) => {
         if (res?.data && res?.status === 200) {
           setProjects(res.data as Project[]);
@@ -154,22 +147,6 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const token = getAuthToken(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/`,
-      },
-    };
-  }
-  const { uuid } = JSON.parse(token) as { uuid: string };
-  return {
-    props: {
-      uuid,
-    },
-  };
-};
+export const getServerSideProps = getServerSidePropsWithUserUUID
 
 export default MyProjects;
