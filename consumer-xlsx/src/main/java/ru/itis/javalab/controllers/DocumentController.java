@@ -26,7 +26,7 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @GetMapping("/export")
+    @PostMapping("/export")
     @Operation(summary = "Генерация асинхронного отчета")
     public ResponseEntity<Long> generateExport(@RequestBody DocumentForm documentForm) {
         return new ResponseEntity<>(documentService.generateExport(documentForm), HttpStatus.OK);
