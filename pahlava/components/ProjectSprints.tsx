@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Paper, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
 const styles = {
@@ -10,38 +10,58 @@ const styles = {
   sprintBox: {
     display: "flex",
     justifyContent: "space-between",
-    flexWrap: "wrap",
     alignItems: "center",
-    mb: 2,
-  },
-  buttonBox: {
-    display: "flex",
-    justifyContent: "space-between",
     flexDirection: "row",
-    maxHeight: 44,
-    columnGap: 2,
-    rowGap: 1,
+    mt: 3,
+  },
+  sprintButtonsBlock: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+    rowGap: "2px",
+    columnGap: 1,
   },
 };
 
-const ProjectSprints = () => {
+export type Sprint = {
+  projectId: string;
+  sprintId: string;
+  sprintName: string;
+};
+
+type Props = {
+  sprints: Sprint[];
+  isLoading?: boolean;
+};
+
+const ProjectSprints = ({ sprints, isLoading }: Props) => {
   const router = useRouter();
   return (
     <Paper sx={styles.description}>
       <Typography sx={{ mb: 2 }} variant="h5">
         Спринты
       </Typography>
-      <Box sx={styles.sprintBox}>
-        <Typography variant="body1" sx={{ mb: 2 }}>
-          Мой Супер спринт
-        </Typography>
-        <Box sx={styles.buttonBox}>
-          <Button variant="contained">Выгрузить отчет в Telegram</Button>
-          <Button variant="contained" color="success" onClick={() => router.push(`/dashboard/sprints/12`)}>
-            Визуализировать
-          </Button>
+      {isLoading === undefined && <Typography variant="h6" sx={{color: 'neutral.200',  my: 4}}>Выберите проект для отображения спринтов</Typography>}
+      {isLoading === true && <Box sx={{textAlign: 'center', my: 4}}><CircularProgress /></Box>}
+      {isLoading === false && sprints.map((s) => (
+        <Box sx={styles.sprintBox} key={s.sprintId}>
+          <Typography variant="body2" sx={{ mr: 1 }}>
+            {s.sprintName}
+          </Typography>
+          <Box sx={styles.sprintButtonsBlock}>
+            <Button variant="contained">
+              <Typography variant="body2">Выгрузить в Telegram</Typography>
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => router.push(`/dashboard/sprints/${s.sprintId}`)}
+            >
+              <Typography variant="body2">Визуализировать</Typography>
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      ))}
     </Paper>
   );
 };

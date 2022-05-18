@@ -4,6 +4,7 @@ import { GetServerSidePropsContext } from "next";
 enum Tokens {
   AUTH = "adfaerghfsdgajerlkagads",
   JIRA = "adfadrweewqeqwergetwers",
+  MYPROJECTS = "asdfawefeaefaesafeadf",
 }
 
 const setAuthToken = (token: string) => {
@@ -12,6 +13,10 @@ const setAuthToken = (token: string) => {
 
 const setJiraTokens = (token: string, url: string) => {
   setCookies(Tokens.JIRA, JSON.stringify({ token, url }));
+};
+
+const setMyProjects = (projectStr : string) => {
+    setCookies(Tokens.MYPROJECTS, projectStr);
 };
 
 const removeAuthToken = () => removeCookies(Tokens.AUTH);
@@ -23,6 +28,10 @@ const getAuthToken = (ctx?: GetServerSidePropsContext): string => {
 
 const getJiraToken = (ctx?: GetServerSidePropsContext): string => {
   return getToken(Tokens.JIRA, ctx);
+};
+
+const getMyProjects = (ctx?: GetServerSidePropsContext): string => {
+    return getToken(Tokens.MYPROJECTS, ctx);
 };
 
 const getToken = (tokenName: Tokens, ctx?: GetServerSidePropsContext) => {
@@ -42,4 +51,6 @@ export {
   setJiraTokens,
   removeJiraToken,
   getJiraToken,
+  getMyProjects,
+  setMyProjects
 };

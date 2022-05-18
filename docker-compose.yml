@@ -70,8 +70,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_USER_ROOT=http://localhost:8085/api
+      - NEXT_PUBLIC_DATA_ROOT=http://localhost:8083/api
     networks:
-      - frontend
+      - backend
 
   jirascrapper:
     image: ${DOCKER_REGISTRY-}jirascrapper

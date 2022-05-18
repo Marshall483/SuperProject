@@ -7,12 +7,13 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
 import { getAuthToken, getJiraToken } from "../../api/cookieStorage";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MeForm from "../../components/MeForm";
+import { getServerSidePropsWithUserUUID } from "../../utils/getServerSideProps";
+
 type JiraObj = {
   url?: string;
   token?: string;
@@ -24,6 +25,57 @@ type UserObj = {
   name?: string;
   password?: string;
   telegramAlias?: string;
+};
+
+const styles = {
+  flexCenter: { display: "flex", alignItems: "center" },
+  userBlock: {
+    maxWidth: 500,
+    minHeight: 200,
+    display: "flex",
+    flexDirection: "column",
+    py: 2,
+    px: 4,
+  },
+  userGrid: {
+    display: "grid",
+    alignItems: "center",
+    gridRowGap: 10,
+    mt: 3,
+  },
+  spinnerBox: {
+    width: "100%",
+    height: 90,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  jiraBlock: {
+    maxWidth: 500,
+    minHeight: 200,
+    display: "flex",
+    flexDirection: "column",
+    mt: 2,
+    py: 2,
+    px: 4,
+  },
+  jiraGrid: {
+    display: "grid",
+    alignItems: "center",
+    gridRowGap: 10,
+    mt: 3,
+  },
+  jiraShortText: {
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    width: 100,
+  },
+  jiraTextGrid: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 };
 
 const Me = () => {
@@ -64,9 +116,9 @@ const Me = () => {
     setJiraisLoading(false);
   }, []);
 
-  const onCopy = (what?: string) => {
-    if (what) {
-      navigator.clipboard.writeText(what);
+  const onCopy = (copyText?: string) => {
+    if (copyText) {
+      navigator.clipboard.writeText(copyText);
       toast.success("скопировано");
     }
   };
@@ -79,47 +131,22 @@ const Me = () => {
           <MeForm setIsLoading={setJiraisLoading} isLoading={jiraIsLoading} />
         </Grid>
         <Grid item>
-          <Paper
-            sx={{
-              maxWidth: 500,
-              minHeight: 200,
-              display: "flex",
-              flexDirection: "column",
-              py: 2,
-              px: 4,
-            }}
-          >
+          <Paper sx={styles.userBlock}>
             <Typography variant="h5">Сведения о пользователе</Typography>
-            <Grid
-              sx={{
-                display: "grid",
-                alignItems: "center",
-                gridRowGap: 10,
-                mt: 3,
-              }}
-              spacing={5}
-            >
+            <Grid sx={styles.userGrid} spacing={5}>
               {jiraIsLoading ? (
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: 90,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
+                <Box sx={styles.spinnerBox}>
                   <CircularProgress />
                 </Box>
               ) : (
                 <>
-                  <Grid item sx={{ display: "flex", alignItems: "center" }}>
+                  <Grid item sx={styles.flexCenter}>
                     <Typography sx={{ mr: 1 }}>Имя:</Typography>
                     <Typography variant="h5">
                       {userObj?.name || "не указан"}
                     </Typography>
                   </Grid>
-                  <Grid item sx={{ display: "flex", alignItems: "center" }}>
+                  <Grid item sx={styles.flexCenter}>
                     <Typography sx={{ mr: 1 }}>Почта:</Typography>
                     <Typography variant="h5">
                       {userObj?.login || "не указан"}
@@ -129,60 +156,19 @@ const Me = () => {
               )}
             </Grid>
           </Paper>
-          <Paper
-            sx={{
-              maxWidth: 500,
-              minHeight: 200,
-              display: "flex",
-              flexDirection: "column",
-              mt: 2,
-              py: 2,
-              px: 4,
-            }}
-          >
+          <Paper sx={styles.jiraBlock}>
             <Typography variant="h5">Сведения о JIRA</Typography>
-            <Grid
-              sx={{
-                display: "grid",
-                alignItems: "center",
-                gridRowGap: 10,
-                mt: 3,
-              }}
-              spacing={5}
-            >
+            <Grid sx={styles.jiraGrid} spacing={5}>
               {jiraIsLoading ? (
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: 90,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
+                <Box sx={styles.spinnerBox}>
                   <CircularProgress />
                 </Box>
               ) : (
                 <>
-                  <Grid
-                    item
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Grid item sx={styles.jiraTextGrid}>
+                    <Box sx={styles.flexCenter}>
                       <Typography sx={{ mr: 1 }}>Token Jira:</Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          width: 100,
-                        }}
-                      >
+                      <Typography variant="h5" sx={styles.jiraShortText}>
                         {jiraObj?.token || "не указан"}
                       </Typography>
                     </Box>
@@ -195,25 +181,10 @@ const Me = () => {
                       </IconButton>
                     )}
                   </Grid>
-                  <Grid
-                    item
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Grid item sx={styles.jiraTextGrid}>
+                    <Box sx={styles.flexCenter}>
                       <Typography sx={{ mr: 1 }}>Jira URL:</Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          width: 100,
-                        }}
-                      >
+                      <Typography variant="h5" sx={styles.jiraShortText}>
                         {jiraObj?.url || "не указан"}
                       </Typography>
                     </Box>
@@ -236,17 +207,6 @@ const Me = () => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const token = getAuthToken(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/`,
-      },
-    };
-  }
-  return { props: {} };
-};
+export const getServerSideProps = getServerSidePropsWithUserUUID
 
 export default Me;

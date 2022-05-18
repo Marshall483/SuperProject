@@ -1,4 +1,7 @@
-import { DashboardLayout } from "../../components/layouts/DashboardLayout";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { Box } from "@mui/system";
 import {
   Button,
   Checkbox,
@@ -8,32 +11,58 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
-import { getAuthToken } from "../../api/cookieStorage";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { DashboardLayout } from "../../components/layouts/DashboardLayout";
+import EmptyWarn from "../../components/EmptyWarn";
+import { Project } from "../../components/ProjectList";
 import {
-  GetAllProjectsByUserIdRoute,
+  getMyProjects,
+  setMyProjects,
+} from "../../api/cookieStorage";
+import {
+  getAllProjectsByUserIdRoute,
   postAllProjectsRoute,
 } from "../../api/routes";
-import { Box } from "@mui/system";
-import toast from "react-hot-toast";
+import { getServerSidePropsWithUserUUID } from "../../utils/getServerSideProps";
 
-type Project = {
-  projectId: string;
-  userId: string;
-  projectName: string;
-  isTracked: boolean;
+const styles = {
+  emptyProjects: {
+    maxWidth: 400,
+    transition: "all 1s ease",
+    p: 4,
+    mt: 2,
+  },
+  main: {
+    maxWidth: 400,
+    minHeight: 200,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    py: 2,
+    px: 4,
+    mt: 2,
+  },
+  spinner: {
+    width: "100%",
+    height: 300,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 };
 
 const MyProjects = ({ uuid }: { uuid: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>();
+  const [isProjectsEmpty, setIsProjectsEmpty] = useState<boolean>(true);
   const [projects, setProjects] = useState<Project[]>();
 
   useEffect(() => {
+    const savedProjects = getMyProjects();
+    if (savedProjects) {
+      setIsProjectsEmpty(false);
+    }
     setIsLoading(true);
     axios
-      .get(GetAllProjectsByUserIdRoute(uuid))
+      .get(getAllProjectsByUserIdRoute(uuid))
       .then((res) => {
         if (res?.data && res?.status === 200) {
           setProjects(res.data as Project[]);
@@ -56,6 +85,11 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
         .finally(() => {
           setIsLoading(false);
         });
+      const activeProjects = projects.filter((el) => el.isTracked === true);
+      if (activeProjects.length > 0) {
+        setMyProjects(JSON.stringify(activeProjects));
+        setIsProjectsEmpty(false);
+      }
     }
   };
 
@@ -76,18 +110,10 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
   return (
     <DashboardLayout title="My Projects | Pahlava">
       <Typography variant="h2">Мои проекты</Typography>
-      <Paper
-        sx={{
-          maxWidth: 400,
-          minHeight: 200,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          py: 2,
-          px: 4,
-          my: 2,
-        }}
-      >
+      {isProjectsEmpty && (
+        <EmptyWarn text="Требуется отметить проекты для использования сервиса" />
+      )}
+      <Paper sx={styles.main}>
         {isLoading == false ? (
           <>
             <FormGroup>
@@ -103,20 +129,16 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
                 />
               ))}
             </FormGroup>
-            <Button onClick={saveProjects} variant="outlined" sx={{ width: 80, mt: 3 }}>
+            <Button
+              onClick={saveProjects}
+              variant="outlined"
+              sx={{ width: 80, mt: 3 }}
+            >
               Изменить
             </Button>
           </>
         ) : (
-          <Box
-            sx={{
-              width: "100%",
-              height: 300,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <Box sx={styles.spinner}>
             <CircularProgress />
           </Box>
         )}
@@ -125,22 +147,6 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const token = getAuthToken(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/`,
-      },
-    };
-  }
-  const { uuid } = JSON.parse(token) as { uuid: string };
-  return {
-    props: {
-      uuid,
-    },
-  };
-};
+export const getServerSideProps = getServerSidePropsWithUserUUID
 
 export default MyProjects;
