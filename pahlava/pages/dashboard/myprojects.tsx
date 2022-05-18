@@ -9,7 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
-import { getAuthToken } from "../../api/cookieStorage";
+import {
+  getAuthToken,
+  getMyProjects,
+  setMyProjects,
+} from "../../api/cookieStorage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -18,6 +22,7 @@ import {
 } from "../../api/routes";
 import { Box } from "@mui/system";
 import toast from "react-hot-toast";
+import EmptyWarn from "../../components/EmptyWarn";
 
 type Project = {
   projectId: string;
@@ -26,11 +31,42 @@ type Project = {
   isTracked: boolean;
 };
 
+const styles = {
+  emptyProjects: {
+    maxWidth: 400,
+    transition: "all 1s ease",
+    p: 4,
+    mt: 2,
+  },
+  main: {
+    maxWidth: 400,
+    minHeight: 200,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    py: 2,
+    px: 4,
+    mt: 2,
+  },
+  spinner: {
+    width: "100%",
+    height: 300,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
+
 const MyProjects = ({ uuid }: { uuid: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>();
+  const [isProjectsEmpty, setIsProjectsEmpty] = useState<boolean>(true);
   const [projects, setProjects] = useState<Project[]>();
 
   useEffect(() => {
+    const savedProjects = getMyProjects();
+    if (savedProjects) {
+      setIsProjectsEmpty(false);
+    }
     setIsLoading(true);
     axios
       .get(GetAllProjectsByUserIdRoute(uuid))
@@ -56,6 +92,11 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
         .finally(() => {
           setIsLoading(false);
         });
+      const activeProjects = projects.filter((el) => el.isTracked === true);
+      if (activeProjects.length > 0) {
+        setMyProjects(JSON.stringify(activeProjects));
+        setIsProjectsEmpty(false);
+      }
     }
   };
 
@@ -76,18 +117,10 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
   return (
     <DashboardLayout title="My Projects | Pahlava">
       <Typography variant="h2">Мои проекты</Typography>
-      <Paper
-        sx={{
-          maxWidth: 400,
-          minHeight: 200,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          py: 2,
-          px: 4,
-          my: 2,
-        }}
-      >
+      {isProjectsEmpty && (
+        <EmptyWarn text="Требуется отметить проекты для использования сервиса" />
+      )}
+      <Paper sx={styles.main}>
         {isLoading == false ? (
           <>
             <FormGroup>
@@ -103,20 +136,16 @@ const MyProjects = ({ uuid }: { uuid: string }) => {
                 />
               ))}
             </FormGroup>
-            <Button onClick={saveProjects} variant="outlined" sx={{ width: 80, mt: 3 }}>
+            <Button
+              onClick={saveProjects}
+              variant="outlined"
+              sx={{ width: 80, mt: 3 }}
+            >
               Изменить
             </Button>
           </>
         ) : (
-          <Box
-            sx={{
-              width: "100%",
-              height: 300,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <Box sx={styles.spinner}>
             <CircularProgress />
           </Box>
         )}
