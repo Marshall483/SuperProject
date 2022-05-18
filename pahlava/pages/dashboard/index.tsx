@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { GetServerSidePropsContext } from "next";
 import {
   Box,
   Button,
