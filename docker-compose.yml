@@ -199,6 +199,19 @@ services:
        - backend
       command: /bin/bash -c "echo service started && sleep 120 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
 
+  telegram-service:
+    build:
+      context: ./telegram-service
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - rabbitmq
+    env_file: # Pass environment variables to the service
+      - backend.env
+    networks:
+      - backend
+
+
 volumes:
   db-data:
   redis-data:
