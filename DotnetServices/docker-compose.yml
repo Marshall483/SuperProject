@@ -82,48 +82,48 @@ services:
     networks:
       - backend
  
-  cassandra-node2:
-    image: cassandra:latest
-    container_name: cassandra-node2
-    environment:
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
-      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
-      - CASSANDRA_PASSWORD=password123
-      - CASSANDRA_DATACENTER=datacenter1
-    restart: always
-    ports:
-      - "9043:9043"
-    networks:
-      - backend
+  #cassandra-node2:
+   # image: cassandra:latest
+   # container_name: cassandra-node2
+   # environment:
+   #   - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+   #   - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+   #   - CASSANDRA_PASSWORD=password123
+   #   - CASSANDRA_DATACENTER=datacenter1
+   # restart: always
+   # ports:
+   #   - "9043:9043"
+   # networks:
+   #   - backend
  
-  cassandra-node3:
-    image: cassandra:latest
-    container_name: cassandra-node3
-    environment:
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
-      - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
-      - CASSANDRA_PASSWORD=password123
-      - CASSANDRA_DATACENTER=datacenter1 
-    restart: always
-    ports:
-      - "9044:9044"
-    networks:
-      - backend
+  #cassandra-node3:
+  #  image: cassandra:latest
+  #  container_name: cassandra-node3
+  #  environment:
+  #    - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+  #    - CASSANDRA_SEEDS=cassandra-node1,cassandra-node2,cassandra-node3
+  #    - CASSANDRA_PASSWORD=password123
+  #    - CASSANDRA_DATACENTER=datacenter1 
+  #  restart: always
+  #  ports:
+  #    - "9044:9044"
+  #  networks:
+  #    - backend
 
   cassandra-load-keyspace:
       container_name: cassandra-load-keyspace
       image: cassandra:latest
       depends_on:
         - cassandra-node1
-        - cassandra-node2
-        - cassandra-node3
+       # - cassandra-node2
+       # - cassandra-node3
       volumes:
         - ./init-scripts/schema.cql:/schema.cql
       ports:
         - "9045:9045"
       networks:
        - backend
-      command: /bin/bash -c "echo service started && sleep 300 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
+      command: /bin/bash -c "echo service started && sleep 100 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
 
 networks:
   backend:

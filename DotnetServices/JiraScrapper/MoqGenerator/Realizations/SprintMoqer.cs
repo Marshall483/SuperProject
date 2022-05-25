@@ -5,10 +5,10 @@ namespace JiraScrapper.MocksGenerator.Realizations;
 
 public class SprintMoqer : ISprintMoqer
 {
-    public IEnumerable<Sprint> ForProject(IEnumerable<Project> projects, int count)
+    public List<Sprint> ForProject(List<Project> projects, int count)
     {
         var sprints = new List<Sprint>();
-
+        
         foreach (var project in projects)
         {
             for(int i = 0; i < count; i++)

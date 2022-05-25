@@ -2,6 +2,7 @@ import Head from "next/head";
 import NextLink from "next/link";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Hasbi from '../public/pics/emptyUser.gif'
 import Image from "next/image";
 
 const NotFound = () => (
@@ -38,7 +39,7 @@ const NotFound = () => (
             }}
           >
             <Image
-              src="/pics/emptyUser.gif"
+              src={Hasbi}
               alt="goodbye-hasbi"
               height={500}
               width={360}

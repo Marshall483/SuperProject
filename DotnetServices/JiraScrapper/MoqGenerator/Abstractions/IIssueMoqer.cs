@@ -4,5 +4,5 @@ namespace JiraScrapper.MocksGenerator.Abstractions;
 
 public interface IIssueMoqer
 {
-    public IEnumerable<Issue> ForSprints(IEnumerable<Sprint> sprints, IEnumerable<string> projectNames, int countPerSprint);
+    public List<Issue> ForSprints(List<Sprint> sprints, List<string> projectNames, int countPerSprint);
 }

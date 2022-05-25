@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, Divider, Drawer, Theme, Typography, useMediaQuery } from "@mui/material";
+import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { Article as ArticleIcon }  from '@mui/icons-material';
+import { Article as ArticleIcon } from "@mui/icons-material";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Lock as LockIcon } from "../icons/lock";
 import { User as UserIcon } from "../icons/user";
-import { Logo } from "./logo";
-import { NavItem } from "./nav-item";
-
+import { NavItem } from "./NavItem";
+import { Logo } from "./Logo";
 
 interface Props {
   onClose: () => void;
@@ -38,10 +37,10 @@ const items = [
   },
 ];
 
-export const DashboardSidebar = (props: Props) => {
+export const Sidebar = (props: Props) => {
   const { open, onClose } = props;
   const router = useRouter();
-  const theme = useTheme()
+  const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"), {
     defaultMatches: true,
     noSsr: false,

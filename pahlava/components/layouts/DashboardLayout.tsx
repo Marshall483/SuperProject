@@ -1,13 +1,11 @@
 import { ReactNode, useState } from "react";
+import Head from "next/head";
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DashboardNavbar } from "./dashboard-navbar";
-import { DashboardSidebar } from "./dashboard-sidebar";
-import Head from "next/head";
-import { getAuthToken } from "../api/cookieStorage";
-import { GetServerSidePropsContext } from "next";
+import { Navbar } from "../Navbar";
+import { Sidebar } from "../Sidebar";
 
-const DashboardLayoutRoot = styled("div")(({ theme }) => ({
+const LayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   maxWidth: "100%",
@@ -28,7 +26,7 @@ export const DashboardLayout = (props: Props) => {
 
   return (
     <>
-      <DashboardLayoutRoot>
+      <LayoutRoot>
         <Head>
           <title>{title}</title>
         </Head>
@@ -43,12 +41,9 @@ export const DashboardLayout = (props: Props) => {
         >
           {children}
         </Container>
-      </DashboardLayoutRoot>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar
-        onClose={() => setSidebarOpen(false)}
-        open={isSidebarOpen}
-      />
+      </LayoutRoot>
+      <Navbar onSidebarOpen={() => setSidebarOpen(true)} />
+      <Sidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />
     </>
   );
 };

@@ -8,8 +8,18 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,16 +30,7 @@ builder.Services.AddSingleton<IIssueMoqer, IssueMoqer>();
 builder.Services.AddSingleton<ISprintMoqer, SprintMoqer>();
 builder.Services.AddTransient<IJsonSender, JsonSender>();
 
-builder.Services.AddCors(options =>
-{
-        options.AddDefaultPolicy(
-                builder =>
-                {
-                        builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                });
-});
+
 
 var app = builder.Build();
 
@@ -40,6 +41,8 @@ app.Urls.Add( "https://localhost:5002");
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors();
 
 app.MapControllers();
 

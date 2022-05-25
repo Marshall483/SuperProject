@@ -1,14 +1,13 @@
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 interface Props {
-  variant?: string
+  variant?: string;
 }
 
-
 export const Logo = styled((props: Props) => {
-  const { variant = 'primary', ...other } = props;
+  const { variant = "primary", ...other } = props;
 
-  const color = variant === 'light' ? '#C1C4D6' : '#5048E5';
+  const color = variant === "light" ? "#C1C4D6" : "#5048E5";
 
   return (
     <svg
@@ -16,7 +15,8 @@ export const Logo = styled((props: Props) => {
       height="42"
       viewBox="0 0 42 42"
       xmlns="http://www.w3.org/2000/svg"
-      {...other}>
+      {...other}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -36,5 +36,3 @@ export const Logo = styled((props: Props) => {
     </svg>
   );
 })``;
-
-

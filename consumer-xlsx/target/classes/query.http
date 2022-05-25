@@ -2,8 +2,7 @@ GET http://localhost:8081/api/generator/export
 Content-Type: application/json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "id": "b1540048-ba80-45b0-832f-3c80004601a6",
   "telegramAlias": null
 }
 
-###

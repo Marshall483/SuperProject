@@ -5,14 +5,9 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
 import { Toaster } from "react-hot-toast";
-import { setUpInterceptor } from "../api/interceptor";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
-
-  useEffect(() => {
-    setUpInterceptor();
-  }, []);
 
   return (
     <>

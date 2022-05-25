@@ -15,4 +15,8 @@ import java.util.UUID;
 public class TokenDto {
     private String token;
     private UUID uuid;
+    private Long id;
+    private String login;
+    private String name;
+    private String telegramAlias;
 }
