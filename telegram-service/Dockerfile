@@ -2,6 +2,8 @@ FROM python:3.10.2-slim as builder
 
 WORKDIR /app
 
+COPY . /app
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
@@ -16,9 +18,9 @@ FROM python:3.10.2-slim
 
 WORKDIR /app
 
-COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
+COPY --from=build /app/. .
 
 RUN mkdir -p ./logs
 RUN pip install --no-cache /wheels/*
+
 RUN python main.py
