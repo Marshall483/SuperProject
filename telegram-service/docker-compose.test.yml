@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  pytest-telegram-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - PYTHONPATH=.
+    command: bash -c "pytest"
